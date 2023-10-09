@@ -6,3 +6,4 @@ from django.contrib.auth.models import PermissionManager
 from django.contrib.auth.models import BaseUserManager
 # Create your models here.
 
+hello
