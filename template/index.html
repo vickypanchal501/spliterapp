@@ -37,8 +37,8 @@
                     <ul class="navbar-nav ms-auto mb-2 mb-lg-0 small fw-bolder">
                         <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
                         <li class="nav-item"><a class="nav-link" href="resume.html">Resume</a></li>
-                        <li class="nav-item text-gradient"><a class="nav-link fw-bolder " href="projects.html"><u>Login</u></a></li>
-                        <li class="nav-item"><a class="btn btn-primary btn-sm" href="contact.html">SignUp</a></li>
+                        <li class="nav-item text-gradient"><a class="nav-link fw-bolder " href="{% url 'login' %}"><u>Login</u></a></li>
+                        <li class="nav-item"><a class="btn btn-primary btn-sm" href="{% url 'signup' %}">SignUp</a></li>
                     </ul>
                 </div>
             </div>
@@ -59,9 +59,9 @@
                             <div
                                 class="d-grid gap-3 d-sm-flex justify-content-sm-center justify-content-xxl-start mb-3">
                                 <a class="btn btn-primary btn-lg px-5 py-3 me-sm-3 fs-6 fw-bolder"
-                                    href="resume.html">Login</a>
+                                    href="login.html">Login</a>
                                 <a class="btn btn-outline-dark btn-lg px-5 py-3 fs-6 fw-bolder"
-                                    href="projects.html">SignUp</a>
+                                    href="signup.html">SignUp</a>
                             </div>
                         </div>
                     </div>
