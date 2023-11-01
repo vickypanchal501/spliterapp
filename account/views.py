@@ -11,35 +11,8 @@ from django.template import Context
 from .forms import SignUpForm
 from .models import CustomUser
 # from django.contrib.auth.models import User
-#################### index####################################### 
 def index(request):
-	return render(request, 'index.html', {'title':'index'})
-
-########### register here ##################################### 
-# def Signup(request):
-# 	if request.method == 'POST':
-# 		form = SignUpForm(request.POST)
-# 		# import pdb;pdb.set_trace()
-# 		if form.is_valid():
-# 			form.save()
-# 			username = form.cleaned_data.get('username')
-# 			email = form.cleaned_data.get('email')
-			
-# 			htmly = get_template('register/gmail.html')
-# 			otp = random.randrange(100000,9999999)
-# 			d = { 'username': username ,"otp":otp}
-# 			subject, from_email, to = 'welcome', 'panchalvikas472@gmail.com', email
-# 			html_content = htmly.render(d)
-# 			msg = EmailMultiAlternatives(subject, html_content, from_email, [to])
-# 			msg.attach_alternative(html_content, "text/html")
-# 			msg.send()
-# 			################################################################## 
-# 			messages.success(request, f'Your account has been created ! You are now able to log in')
-# 			return redirect('Login')
-# 	else:
-# 		form = SignUpForm()
-# 	return render(request, 'register/signup.html', {'form': form, 'title':'register here'})
-
+     return render(request, "index.html")
 ################ login forms################################################### 
 def Login(request):
 	if request.method == 'POST':
@@ -58,27 +31,23 @@ def Login(request):
 	form = AuthenticationForm()
 	return render(request, 'register/login.html', {'form':form, 'title':'log in'})
 
-
+# otp verification 
 
 from django.core.mail import EmailMultiAlternatives
 from django.template.loader import get_template
 import random
 
-
-
-
-
-
-
-
 from django.contrib import messages
 
 def VerifyOTP(request):
+    # import pdb; pdb.set_trace()
+    username1 = request.session.get('username1')
     if request.method == 'POST':
         entered_otp = request.POST.get('otp')
         stored_otp = request.session.get('signup_otp')
         user_id = request.session.get('signup_user_id')
-
+		
+        
         if stored_otp and entered_otp == str(stored_otp):
             del request.session['signup_otp']
             del request.session['signup_user_id']
@@ -89,9 +58,10 @@ def VerifyOTP(request):
             
             messages.success(request, f'Your email has been verified, and your account is now active. You can log in.')
             return redirect('Login')
+			# return render(request,"re")
         else:
             messages.error(request, 'Invalid OTP. Please try again.')
-    return render(request, 'register/verify_otp.html')
+    return render(request, 'register/verify_otp.html', {'username':username1})
 
 
 
@@ -102,6 +72,7 @@ from django.contrib import messages
 
 def Signup(request):
     if request.method == 'POST':
+        # import pdb; pdb.set_trace()
         form = SignUpForm(request.POST)
         if form.is_valid():
             user = form.save()
@@ -122,12 +93,19 @@ def Signup(request):
             msg.attach_alternative(html_content, "text/html")
             msg.send()
             
-            
+            # request.session['username1'] = user
             request.session['signup_otp'] = otp
             request.session['signup_user_id'] = user.id
-
+            request.session['username1'] = username
+	
+            
             messages.success(request, f'An OTP has been sent to your email. Please verify your email.')
-            return redirect('VerifyOTP')
+            return redirect('VerifyOTP', )
+            # return render(request, 'register/verify_otp.html', {'username' : username})
+
+        else:
+            messages.success(request, f'Your Email Id is Alerady register . You can direct Login.')
+            return render(request, 'register/signup.html', {'form': form, 'title': 'Register Here'})
     else:
         form = SignUpForm()
     return render(request, 'register/signup.html', {'form': form, 'title': 'Register Here'})

@@ -45,7 +45,7 @@ INSTALLED_APPS = [
 ]
 # OTP_TOTP_ALGORITHM = 'sha256'
 # OTP_TOTP_ISSUER = 'otp'
-
+# CRISPY_TEMPLATE_PACK = "bootstrap3"
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
