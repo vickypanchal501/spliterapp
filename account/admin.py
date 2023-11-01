@@ -22,7 +22,11 @@ class CustomUserAdmin(UserAdmin):
 
 admin.site.register(CustomUser, CustomUserAdmin)
 
-# class CustomUserAdmin(UserAdmin):
-#     model = CustomUser
-# admin.site.register(U)
-# admin.site.register(CustomUser, CustomUserAdmin)
+
+# class OTP(admin.ModelAdmin):
+#     list_display = ["otp","confirmed" ]
+
+# # class CustomUserAdmin(UserAdmin):
+# #     model = CustomUser
+# # admin.site.register(U)
+# admin.site.register(OTPDevice, OTP)
