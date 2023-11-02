@@ -212,6 +212,8 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.1/css/all.min.css"
     integrity="sha256-2XFplPlrFClt0bIdPgpz8H7ojnk10H69xRqd9+uTShA=" crossorigin="anonymous" />
+{% block content %}   
+<h1>{{ group.name }}</h1> 
 <div class="container mt-3 mb-4">
     <div class="col-lg-9 mt-4 mt-lg-0">
         <div class="row">
@@ -227,6 +229,7 @@
                         </thead>
                         <tbody>
                             {% for member in group.members.all %}
+                          
                             <tr class="candidates-list">
                                 <td class="title">
                                     <div class="thumb">
@@ -285,3 +288,4 @@
         </div>
     </div>
 </div>
+{% endblock %}

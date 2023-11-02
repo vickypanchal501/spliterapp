@@ -1,4 +1,4 @@
-<!-- {% extends "group/create_group.html" %} -->
+
 {% load static %}
 <!doctype html>
 <html lang="en">
@@ -86,14 +86,14 @@
                         <i class="fa fa-bars"></i>
                         <span class="sr-only">Toggle Menu</span>
                     </button>
-                    <!-- {% block content %} -->
-                    <form method="post" style="margin-left: 20px;">
+                
+                    <form method="post" style="margin-left: 20px;" action="{% url 'create_group' %}">
                         {% csrf_token %}
                         <!-- <label for="group_name">Group Name:</label> -->
                         <input type="text" id="group_name" name="group_name" style="border-radius: 10px;border: 1px solid grey; padding-left: 10px;" placeholder="Create Group" required>
                         <button type="submit" style="border: none;border-radius: 10px;background-color: rgba(124, 226, 197, 0.849);color: white;">Create</button>
                     </form>
-                    <!-- {% endblock %} -->
+                  
                     <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse"
                         data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
@@ -121,16 +121,9 @@
                 </div>
             </nav>
            
-            
-            <h2 class="mb-4">Sidebar #01</h2>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                ex
-                ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                fugiat
-                nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt
-                mollit
-                anim id est laborum.</p>
+            {% include 'group/group_detail.html' %} 
+            <h2 class="mb-4"></h2>
+            <p><p>
             <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
                 dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
                 ex
@@ -140,6 +133,7 @@
                 mollit
                 anim id est laborum.</p>
         </div>
+        
     </div>
 
     <script src="{% static 'js/mainjs/jquery.min.js' %}"></script>

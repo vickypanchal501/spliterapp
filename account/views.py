@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect ,HttpResponseRedirect
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
@@ -10,10 +10,13 @@ from django.template.loader import get_template
 from django.template import Context
 from .forms import SignUpForm
 from .models import CustomUser
-from spliterapp.views import main
+# from spliterapp.views import main
 # from django.contrib.auth.models import User
 def index(request):
      return render(request, "index.html")
+
+def Main(request,group_id):
+     return render(request, "group/main.html",{'group_id':group_id})
 ################ login forms################################################### 
 def Login(request):
 	if request.method == 'POST':
@@ -26,7 +29,7 @@ def Login(request):
 		if user is not None:
 			form = login(request, user)
 			messages.success(request, f' welcome {username} !!')
-			return redirect('main')
+			return redirect('Main')
 		else:
 			messages.info(request, f'account done not exit plz sign in')
 	form = AuthenticationForm()

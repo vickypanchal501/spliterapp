@@ -5,8 +5,7 @@ from django.shortcuts import render, redirect
 from .models import Group
 from account.models import CustomUser
 
-def main(request):
-    return render(request, "group/main.html")
+
 
 def create_group(request):
     if request.method == 'POST':
@@ -16,7 +15,7 @@ def create_group(request):
         group.members.add(creator)
         group.save()
         return redirect('group_detail', group_id=group.id)
-    return render(request, 'group/create_group.html')
+    return render(request, 'group/main.html')
 
 def group_detail(request, group_id):
     group = Group.objects.get(id=group_id)
@@ -29,4 +28,4 @@ def group_detail(request, group_id):
         except CustomUser.DoesNotExist:
             # Handle the case where the user doesn't exist
             pass
-    return render(request, 'group/group_detail.html', {'group': group})
+    return render(request, 'group/main.html', {'group': group})
