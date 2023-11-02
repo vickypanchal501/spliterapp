@@ -10,6 +10,7 @@ from django.template.loader import get_template
 from django.template import Context
 from .forms import SignUpForm
 from .models import CustomUser
+from spliterapp.views import main
 # from django.contrib.auth.models import User
 def index(request):
      return render(request, "index.html")
@@ -25,7 +26,7 @@ def Login(request):
 		if user is not None:
 			form = login(request, user)
 			messages.success(request, f' welcome {username} !!')
-			return redirect('index')
+			return redirect('main')
 		else:
 			messages.info(request, f'account done not exit plz sign in')
 	form = AuthenticationForm()

@@ -37,25 +37,22 @@
                     <ul class="navbar-nav ms-auto mb-2 mb-lg-0 small fw-bolder">
                         <li class="nav-item"><a class="nav-link" href="{% url 'index' %}">Home</a></li>
                         <li class="nav-item"><a class="nav-link" href="{% url 'create_group' %}">Create Group </a></li>
-                        {% if user.is_authenticated %} 
-                        <li class="nav-item"><a class="btn btn-primary btn-sm" href="{% url 'logout' %}">Logout</a></li>
-                        {% else %}
                         <li class="nav-item text-gradient"><a class="nav-link fw-bolder "
                                 href="{% url 'Login' %}"><u>Login</u></a></li>
                         <li class="nav-item"><a class="btn btn-primary btn-sm" href="{% url 'Signup' %}">SignUp</a></li>
-                        {% endif %}
+                        
                     </ul>
                 </div>
             </div>
         </nav>
-        {% if messages %}
+        <!-- {% if messages %}
         {% for message in messages %}
         <script>
             alert("{{ message }}");
         </script>
 
         {% endfor %}
-        {% endif %}
+        {% endif %} -->
         <!-- Header-->
         <header class="py-5">
             <div class="container px-5 pb-5">
