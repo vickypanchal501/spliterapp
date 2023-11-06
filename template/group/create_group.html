@@ -1,3 +1,4 @@
+{% extends 'register/login.html' %}
 {% load static %}
 
 <!DOCTYPE html>
@@ -8,6 +9,8 @@
 </head>
 
 <body>
+    
+    {% block hello %}
     <h1>Create a Group</h1>
     
     <form method="post">
@@ -16,6 +19,9 @@
         <input type="text" id="group_name" name="group_name" required>
         <button type="submit">Create</button>
     </form>
+    {% endblock hello %}
+        
+    
 </body>
 
 

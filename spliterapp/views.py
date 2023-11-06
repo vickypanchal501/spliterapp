@@ -19,6 +19,10 @@ def create_group(request):
 
 def group_detail(request, group_id):
     group = Group.objects.get(id=group_id)
+    user = request.user  # Get the current user
+    user_groups = Group.objects.filter(members=user)
+
+
     if request.method == 'POST':
         invited_user_username = request.POST.get('invited_user')
         try:
@@ -28,4 +32,10 @@ def group_detail(request, group_id):
         except CustomUser.DoesNotExist:
             # Handle the case where the user doesn't exist
             pass
-    return render(request, 'group/main.html', {'group': group})
+        
+    return render(request, 'group/main.html', {'group': group,'user_groups': user_groups, 'user_id': user })
+
+# def group_list(request):
+#     user = request.user  # Get the current user
+#     user_groups = Group.objects.filter(members=user)
+#     return render(request, 'group/main.html', {})

@@ -10,13 +10,17 @@ from django.template.loader import get_template
 from django.template import Context
 from .forms import SignUpForm
 from .models import CustomUser
+from spliterapp.models import Group
 # from spliterapp.views import main
 # from django.contrib.auth.models import User
 def index(request):
      return render(request, "index.html")
 
-def Main(request,group_id):
-     return render(request, "group/main.html",{'group_id':group_id})
+def Main(request,):
+    # group = Group.objects.get(id=group_id)
+    user = request.user  # Get the current user
+    user_groups = Group.objects.filter(members=user)
+    return render(request, "group/main.html",{'user_groups': user_groups})
 ################ login forms################################################### 
 def Login(request):
 	if request.method == 'POST':

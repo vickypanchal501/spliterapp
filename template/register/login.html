@@ -1,3 +1,4 @@
+
 {% load crispy_forms_tags %}
 
 <!DOCTYPE html>
@@ -80,6 +81,12 @@
                 </div>
             </div>
         </div>
+        
+        {% block newblock %}
+            
+        <h1>this is block</h1>
+        {% endblock %}
+            
     </section>
     <!-- MDB -->
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.2/mdb.min.js"></script>
