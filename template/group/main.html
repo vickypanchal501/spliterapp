@@ -16,95 +16,96 @@
 <!-- <body>
     https://source.unsplash.com/random/200x200?japnanese-anime=2
     cartoon-characters -->
-    <div class="wrapper d-flex align-items-stretch">
-        <nav id="sidebar">
-            <div class="p-4 pt-5">
-                <a href="" class="img logo rounded-circle mb-5"
-                    style="background-image: url(https://bootdey.com/img/Content/avatar/avatar{{ user.id }}.png);"></a>
-                <h1 class="" style="color: white; text-align: center;">{{user.username}}</h1>
-                <ul class="list-unstyled components mb-5">
-                    <li class="active">
-                        <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false"
-                            class="dropdown-toggle">Home</a>
-                        <ul class="collapse list-unstyled" id="homeSubmenu">
-                            <li>
-                                <a href="#">Home 1</a>
-                            </li>
-                            <li>
-                                <a href="#">Home 2</a>
-                            </li>
-                            <li>
-                                <a href="#">Home 3</a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="active">
-                        <a href="#aboutSubmenu" data-toggle="collapse" aria-expanded="false"
-                            class="dropdown-toggle">Groups</a>
-                        <ul class="collapse list-unstyled" id="aboutSubmenu">
-                            {% for group in user_groups %}
-                            <li>
-                                <a href="#">{{ group.name }}</a>
-                            </li>
-                          
-                            {% endfor %}
-                           
-                        </ul>
-                    </li>
-                    <li>
-                        <a href="#">About</a>
-                    </li>
-                    <li>
-                        <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false"
-                            class="dropdown-toggle">Pages</a>
-                        <ul class="collapse list-unstyled" id="pageSubmenu">
-                            <li>
-                                <a href="#">Page 1</a>
-                            </li>
-                            <li>
-                                <a href="#">Page 2</a>
-                            </li>
-                            <li>
-                                <a href="#">Page 3</a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li>
-                        <a href="#">Portfolio</a>
-                    </li>
-                    <li>
-                        <a href="#">Contact</a>
-                    </li>
-                </ul>
+<div class="wrapper d-flex align-items-stretch">
+    <nav id="sidebar">
+        <div class="p-4 pt-5">
+            <a href="" class="img logo rounded-circle mb-5"
+                style="background-image: url(https://bootdey.com/img/Content/avatar/avatar{{ user.id }}.png);"></a>
+            <h1 class="" style="color: white; text-align: center;">{{user.username}}</h1>
+            <ul class="list-unstyled components mb-5">
+                <li class="active">
+                    <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Home</a>
+                    <ul class="collapse list-unstyled" id="homeSubmenu">
+                        <li>
+                            <a href="#">Home 1</a>
+                        </li>
+                        <li>
+                            <a href="#">Home 2</a>
+                        </li>
+                        <li>
+                            <a href="#">Home 3</a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="active">
+                    <a href="#aboutSubmenu" data-toggle="collapse" aria-expanded="false"
+                        class="dropdown-toggle">Groups</a>
+                    <ul class="collapse list-unstyled" id="aboutSubmenu">
+                        {% for group in user_groups %}
+                        <li>
+                            <a href="#">{{ group.name }}</a>
+                        </li>
 
-                <div class="footer">
-                    <p><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                        Copyright &copy;
-                        <script>document.write(new Date().getFullYear());</script> All rights reserved | This template
-                        is made with <i class="icon-heart" aria-hidden="true"></i> by <a href="https://colorlib.com"
-                            target="_blank">Colorlib.com</a>
-                        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                    </p>
-                </div>
+                        {% endfor %}
 
+                    </ul>
+                </li>
+                <li>
+                    <a href="#">About</a>
+                </li>
+                <li>
+                    <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false"
+                        class="dropdown-toggle">Pages</a>
+                    <ul class="collapse list-unstyled" id="pageSubmenu">
+                        <li>
+                            <a href="#">Page 1</a>
+                        </li>
+                        <li>
+                            <a href="#">Page 2</a>
+                        </li>
+                        <li>
+                            <a href="#">Page 3</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#">Portfolio</a>
+                </li>
+                <li>
+                    <a href="#">Contact</a>
+                </li>
+            </ul>
+
+            <div class="footer">
+                <p><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                    Copyright &copy;
+                    <script>document.write(new Date().getFullYear());</script> All rights reserved | This template
+                    is made with <i class="icon-heart" aria-hidden="true"></i> by <a href="https://colorlib.com"
+                        target="_blank">Colorlib.com</a>
+                    <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                </p>
             </div>
-        </nav>
 
-        <!-- Page Content  -->
-        <div id="content" class="p-4 p-md-5">
+        </div>
+    </nav>
 
-            <nav class="navbar navbar-expand-lg navbar-light bg-light">
 
-                <div class="container-fluid">
 
-                    <button type="button" id="sidebarCollapse" class="btn btn-primary">
-                        <i class="fa fa-bars"></i>
-                        <span class="sr-only">Toggle Menu</span>
-                    </button>
-                    <div>
+    <!-- Page Content  -->
+    <div id="content" class="p-4 p-md-5">
 
-                   
-                    <form method="post"  action="{% url 'create_group' %}">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+
+            <div class="container-fluid">
+
+                <button type="button" id="sidebarCollapse" class="btn btn-primary">
+                    <i class="fa fa-bars"></i>
+                    <span class="sr-only">Toggle Menu</span>
+                </button>
+                <div>
+
+
+                    <form method="post" action="{% url 'create_group' %}">
                         {% csrf_token %}
                         <div class="input-group" style="padding-left:10px ;">
                             <input type="text" class="form-control" placeholder="Create Group"
@@ -112,46 +113,54 @@
                             <div class="input-group-append">
                                 <button class="input-group-text" id="basic-addon2" type="submit">Create </button>
                             </div>
-                        </div>    
+                        </div>
                     </form>
                 </div>
-                    <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse"
-                        data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                        <i class="fa fa-bars"></i>
-                    </button>
+                <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse"
+                    data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                    <i class="fa fa-bars"></i>
+                </button>
 
-                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                        
-                        <ul class="nav navbar-nav ml-auto">
-                            <li class="nav-item active">
-                                <a class="nav-link" href="#">Home</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">About</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">Portfolio</a>
-                            </li>
-                            {% if user.is_authenticated %}
-                            <li class="nav-item  ">
-                                <a class="nav-link btn btn-primary" href="{% url 'logout' %}">logout</a>
-                            </li>
-                            {% endif %}
-                        </ul>
-                    </div>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+                    <ul class="nav navbar-nav ml-auto">
+                        <li class="nav-item active">
+                            <a class="nav-link" href="#">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">About</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Portfolio</a>
+                        </li>
+                        {% if user.is_authenticated %}
+                        <li class="nav-item  ">
+                            <a class="nav-link btn btn-primary" href="{% url 'logout' %}">logout</a>
+                        </li>
+                        {% endif %}
+                    </ul>
                 </div>
-            </nav>
+            </div>
+        </nav>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-7">
 
-          
-            {% include 'group/group_detail.html' %}
-                
-                
+                    {% include 'group/user_expense.html' %}
+                </div>
+                <div class="col-5">
+
+                    {% include 'group/group_detail.html' %}
+                </div>
+            </div>
+        </div>
 
 
-            <h2 class="mb-4"></h2>
-          
-            <!-- <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
+
+        <h2 class="mb-4"></h2>
+
+        <!-- <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
                 dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
                 ex
                 ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
@@ -159,14 +168,14 @@
                 nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt
                 mollit
                 anim id est laborum.</p> -->
-        </div>
-
     </div>
 
-    <script src="{% static 'js/mainjs/jquery.min.js' %}"></script>
-    <script src="{% static 'js/mainjs/popper.js' %}"></script>
-    <script src="{% static 'js/mainjs/bootstrap.min.js' %}"></script>
-    <script src="{% static 'js/mainjs/main.js' %}"></script>
+</div>
+
+<script src="{% static 'js/mainjs/jquery.min.js' %}"></script>
+<script src="{% static 'js/mainjs/popper.js' %}"></script>
+<script src="{% static 'js/mainjs/bootstrap.min.js' %}"></script>
+<script src="{% static 'js/mainjs/main.js' %}"></script>
 </body>
 
 </html>
