@@ -2,9 +2,9 @@ from django.shortcuts import render
 
 # Create your views here.
 from django.shortcuts import render, redirect
-from .models import Group
+from .models import Group, Expense
 from account.models import CustomUser
-
+# from .forms import ExpenseForm 
 
 
 def create_group(request):
@@ -35,7 +35,51 @@ def group_detail(request, group_id):
         
     return render(request, 'group/main.html', {'group': group,'user_groups': user_groups, 'user_id': user })
 
-# def group_list(request):
-#     user = request.user  # Get the current user
-#     user_groups = Group.objects.filter(members=user)
-#     return render(request, 'group/main.html', {})
+def expense(request):
+    return render(request, 'expense/expense.html')
+
+# def add_expense(request, group_id):
+#     group = Group.objects.get(id=group_id)
+#     if request.method == 'POST':
+#         form = ExpenseForm(request.POST)
+#         if form.is_valid():
+#             expense = form.save(commit=False)
+#             expense.created_by = request.user
+#             expense.group = group
+#             expense.save()
+#             return redirect('group_detail', group_id=group.id)
+#     else:
+#         form = ExpenseForm()
+    return render(request, 'add_expense.html', {'form': form, 'group': group})
+
+
+
+
+# def add_expense(request, group_id):
+#     group = Group.objects.get(id=group_id)
+#     if request.method == 'POST':
+#         form = ExpenseForm(request.POST)
+#         if form.is_valid():
+#             expense = form.save(commit=False)
+#             expense.created_by = request.user
+#             expense.group = group
+#             expense.save()
+
+#             # Calculate the split amount
+#             split_with_users = form.cleaned_data['split_with']
+#             split_amount = form.cleaned_data['split_amount']
+
+#             # Calculate the amount for each user
+#             amount_per_user = split_amount / (len(split_with_users) + 1)
+#             expense.split_amount = amount_per_user
+#             expense.save()
+
+#             # Add the creator to the split_with users
+#             split_with_users = list(split_with_users)
+#             split_with_users.append(request.user)
+#             expense.split_with.set(split_with_users)
+
+#             return redirect('group_detail', group_id=group.id)
+#     else:
+#         form = ExpenseForm()
+#     return render(request, 'add_expense.html', {'form': form, 'group': group})
