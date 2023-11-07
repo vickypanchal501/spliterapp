@@ -47,6 +47,7 @@ a {
 textarea {
   resize: none; }
 
+ 
 select {
   -moz-appearance: none;
   -webkit-appearance: none;
@@ -77,9 +78,10 @@ body {
 #wizard {
   position: relative;
   background: #fff;
-  height: 554px;
+  /* height: 554px; */
   width: 738px;
-  padding: 71px 93px 0;
+  /* padding: 71px 93px 0; */
+  padding: 50px;
   border-radius: 10px;
   box-shadow: 0px 2px 7px 0px rgba(0, 0, 0, 0.1);
   -webkit-box-shadow: 0px 2px 7px 0px rgba(0, 0, 0, 0.1);
@@ -155,13 +157,13 @@ body {
     left: 0px;
     width: 10px;
     height: 10px;
-    border: 2px solid #f6c2ec;
+    border: 2px solid #f8b739;
     border-radius: 50%;
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box; }
   .form-holder.active:before {
-    background: #f6c2ec; }
+    background: #f8b739; }
 
 .form-control {
   height: 46px;
@@ -230,7 +232,8 @@ body {
   height: 177px; }
 
 .actions ul {
-  display: flex; }
+  display: flex;
+justify-content: end; }
   .actions ul.actions-next {
     justify-content: space-between; }
 .actions li a {
@@ -240,7 +243,7 @@ body {
   height: 46px;
   width: 146px;
   align-items: center;
-  background: #aac1f0;
+  background: #f8b739;
   cursor: pointer;
   position: relative;
   padding-left: 33px;
@@ -256,12 +259,12 @@ body {
   .actions li a:before {
     content: '\f2ee';
     position: absolute;
-    top: 17px;
-    right: 32px;
+    top: 9px;
+    right: 26px;
     font-family: Material-Design-Iconic-Font;
     -webkit-transform: translateZ(0);
     transform: translateZ(0);
-    font-size: 13px; }
+    font-size: 18px; }
   .actions li a:hover {
     background: #98add6; }
     .actions li a:hover:before {
@@ -277,7 +280,9 @@ body {
   display: none; }
 .actions li:first-child a {
   background: #f6c2ec;
-  padding-left: 65px; }
+  padding-left: 65px; 
+  margin-right: 10px;
+}
   .actions li:first-child a:before {
     content: '\f2ea';
     left: 48px; }
@@ -369,7 +374,8 @@ body {
 
   .actions ul {
     flex-direction: column;
-    align-items: flex-end; }
+    align-items: flex-end; 
+  }
 
   .steps {
     display: none; } }
