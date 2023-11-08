@@ -16,5 +16,7 @@ class Expense(models.Model):
     split_with = models.ManyToManyField(CustomUser, related_name='expenses_involved')
     split_amount = models.DecimalField(max_digits=10, decimal_places=2)
     date = models.DateField(auto_now_add=True)
+    paid_by = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='expenses_payer' )
+
     def __str__(self):
         return self.description

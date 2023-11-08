@@ -21,7 +21,33 @@ body {
   color: #808080;
   margin: 0;
   font-weight: 400; }
-
+.human_summary{
+  justify-content: center;
+  display: flex;
+  font-size: 18px;
+  clear: both;
+  margin: 15px 0 10px;
+ 
+}
+.human_summary a {
+  display: inline-block;
+  background: #f6f6f6;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  border-radius: 10px;
+  height: 22px;
+  line-height: 14px;
+  padding: 2px 5px 0;
+  border: 1px dashed #ccc;
+  vertical-align: middle;
+  color: #f8b739;
+  margin: 0px 3px;
+  font-size: inherit;
+  cursor: pointer;
+  text-decoration: none;
+  overflow: hidden;
+  white-space: nowrap;
+}
 :focus {
   outline: none; }
 
@@ -79,7 +105,7 @@ body {
   position: relative;
   background: #fff;
   /* height: 554px; */
-  width: 738px;
+  width: 43%;
   /* padding: 71px 93px 0; */
   padding: 50px;
   border-radius: 10px;

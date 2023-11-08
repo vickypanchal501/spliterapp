@@ -34,9 +34,10 @@ def group_detail(request, group_id):
 
 def add_expense(request, group_id):
     group = Group.objects.get(id=group_id)
+    split_amount = 0 
     # import pdb; pdb.set_trace()
     if request.method == 'POST':
-        form = ExpenseForm(request.POST)
+        form = ExpenseForm(group,request.POST)
         
         if form.is_valid():
             expense = form.save(commit=False)
@@ -60,6 +61,10 @@ def add_expense(request, group_id):
 
             return redirect('group_detail', group_id=group.id)
     else:
-        form = ExpenseForm()
-
-    return render(request, 'expense/expense.html', {'form': form, 'group': group})
+        form = ExpenseForm(group)
+    context = {
+        'group': group,
+        'form': form,
+        'split_amount': split_amount,
+    }
+    return render(request, 'expense/expense.html', context)
