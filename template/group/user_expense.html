@@ -203,11 +203,11 @@
             <!-- <div class="col-12 col-sm-12 col-md-12"> -->
                 <div class="card ">
                     <div class="card-header mr-auto justify-content-between navbar-light bg-light" style="width: 97%;margin: 10px 10px 5px 10px;">
-                        <a class="navbar-brand">Navbar</a>
+                        <a class="navbar-brand">{{group}}</a>
                         <ul class="nav nav-pills card-header-pills ">
                             <li class="nav-item px-1">
                             {% if group.id %}
-                              <a class="nav-link active" style="background-color: #f8b739" href="{% url 'add_expense' group_id=group.id %}">Add an Expense</a>>Add an expense</a>
+                              <a class="nav-link active" style="background-color: #f8b739" href="{% url 'add_expense' group_id=group.id %}" >Add an Expense</a>
                                 {% endif %}
                             </li>
                             <li class="nav-item px-1 ">
@@ -228,60 +228,61 @@
                                         <th>Team</th>
                                         <th>Priority</th>
                                         <th>Status</th>
-                                        <th>Edit</th>
+                                        <!-- <th>Edit</th> -->
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    {% for expense in you_paid_expenses %}
                                     <tr>
                                         <td class="table-img"><img
                                                 src="https://bootdey.com/img/Content/avatar/avatar8.png" alt>
                                         </td>
                                         <td>
-                                            <h6 class="mb-0 font-13">Wordpress Website</h6>
                                             <p class="m-0 font-12">
-                                                Assigned to<span class="col-green font-weight-bold"> Airi Satou</span>
+                                                <span class="col-green font-weight-bold">{{ expense.description }} </span>
                                             </p>
                                         </td>
                                         <td>20-02-2018</td>
                                         <td class="text-truncate">
                                             <ul class="list-unstyled order-list m-b-0">
                                                 <li class="team-member team-member-sm"><img class="rounded-circle"
-                                                        src="https://bootdey.com/img/Content/avatar/avatar1.png"
-                                                        alt="user" data-toggle="tooltip" title
-                                                        data-original-title="Wildan Ahdian"></li>
-                                                <li class="team-member team-member-sm"><img class="rounded-circle"
+                                                    src="https://bootdey.com/img/Content/avatar/avatar1.png"
+                                                    alt="user" data-toggle="tooltip" title
+                                                    data-original-title="Wildan Ahdian"></li>
+                                                    <li class="team-member team-member-sm"><img class="rounded-circle"
                                                         src="https://bootdey.com/img/Content/avatar/avatar2.png"
                                                         alt="user" data-toggle="tooltip" title
                                                         data-original-title="John Deo"></li>
-                                                <li class="team-member team-member-sm"><img class="rounded-circle"
-                                                        src="https://bootdey.com/img/Content/avatar/avatar3.png"
-                                                        alt="user" data-toggle="tooltip" title
+                                                        <li class="team-member team-member-sm"><img class="rounded-circle"
+                                                            src="https://bootdey.com/img/Content/avatar/avatar3.png"
+                                                            alt="user" data-toggle="tooltip" title
                                                         data-original-title="Sarah Smith"></li>
                                                 <li class="avatar avatar-sm"><span class="badge badge-primary">+4</span>
                                                 </li>
                                             </ul>
                                         </td>
                                         <td>
-                                            <div class="badge-outline col-red">High</div>
+                                            <div class="badge-outline col-red">{{total_you_paid}}</div>
                                         </td>
                                         <td class="align-middle">
                                             <div class="progress-text">50%</div>
                                             <div class="progress" data-height="6" style="height: 6px;">
                                                 <div class="progress-bar bg-success" data-width="50%"
-                                                    style="width: 50%;"></div>
+                                                style="width: 50%;"></div>
                                             </div>
                                         </td>
-                                        <td>
+                                        <!-- <td>
                                             <a data-toggle="tooltip" title data-original-title="Edit"><i
                                                     class="fas fa-pencil-alt"></i></a>
                                             <a data-toggle="tooltip" title data-original-title="Delete"><i
                                                     class="far fa-trash-alt"></i></a>
-                                        </td>
+                                                </td> -->
                                     </tr>
+                                    {% endfor%}
                                     <tr>
                                         <td class="table-img"><img
                                                 src="https://bootdey.com/img/Content/avatar/avatar1.png" alt>
-                                        </td>
+                                            </td>
                                         <td>
                                             <h6 class="mb-0 font-13">Android Game App</h6>
                                             <p class="m-0 font-12">
@@ -317,12 +318,7 @@
                                                     style="width: 55%;"></div>
                                             </div>
                                         </td>
-                                        <td>
-                                            <a data-toggle="tooltip" title data-original-title="Edit"><i
-                                                    class="fas fa-pencil-alt"></i></a>
-                                            <a data-toggle="tooltip" title data-original-title="Delete"><i
-                                                    class="far fa-trash-alt"></i></a>
-                                        </td>
+                                      
                                 </tbody>
                             </table>
                         </div>
@@ -337,6 +333,12 @@
     <script type="text/javascript">
 
     </script>
+
+<!-- group_detail.html -->
+
+
+
+
 </body>
 
 </html>

@@ -68,3 +68,6 @@ def add_expense(request, group_id):
         'split_amount': split_amount,
     }
     return render(request, 'expense/expense.html', context)
+
+def checkbox(request):
+    return render(request, "expense/checkbox.html")
