@@ -4,6 +4,8 @@ from account.models import CustomUser
 from .forms import ExpenseForm
 
 def create_group(request):
+    user = request.user
+    user_groups = Group.objects.filter(members=user)
     if request.method == 'POST':
         group_name = request.POST.get('group_name')
         creator = request.user
@@ -11,7 +13,7 @@ def create_group(request):
         group.members.add(creator)
         group.save()
         return redirect('group_detail', group_id=group.id)
-    return render(request, 'group/base.html')
+    return render(request, 'group/base.html' ,{'user_groups': user_groups,})
 
 def group_detail(request, group_id):
     group = Group.objects.get(id=group_id)
@@ -73,3 +75,12 @@ def add_expense(request, group_id):
 
 def checkbox(request):
     return render(request, "expense/checkbox.html")
+
+from django.shortcuts import get_object_or_404, redirect
+from django.http import JsonResponse
+from .models import Group
+
+def delete_group(request, group_id):
+    group = get_object_or_404(Group, id=group_id)
+    group.delete()
+    return JsonResponse({'message': 'Group deleted successfully'})
