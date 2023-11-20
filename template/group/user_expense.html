@@ -1,0 +1,344 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+
+
+    <title>Assign Project List - Bootdey.com</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style type="text/css">
+        body {
+            background-color: #f6f6f6;
+            margin-top: 20px;
+        }
+
+        .card {
+            background-color: #fff;
+            border-radius: 10px;
+            border: none;
+            position: relative;
+            margin-bottom: 30px;
+            box-shadow: 0 0.46875rem 2.1875rem rgba(90, 97, 105, 0.1), 0 0.9375rem 1.40625rem rgba(90, 97, 105, 0.1), 0 0.25rem 0.53125rem rgba(90, 97, 105, 0.12), 0 0.125rem 0.1875rem rgba(90, 97, 105, 0.1);
+        }
+
+        .card .card-header {
+            border-bottom-color: #f9f9f9;
+            line-height: 30px;
+            -ms-grid-row-align: center;
+            align-self: center;
+            width: 100%;
+            padding: 10px 25px;
+            display: flex;
+            align-items: center;
+        }
+
+        .card .card-header,
+        .card .card-body,
+        .card .card-footer {
+            background-color: transparent;
+            padding: 20px 25px;
+        }
+
+        .card-header:first-child {
+            border-radius: calc(.25rem - 1px) calc(.25rem - 1px) 0 0;
+        }
+
+        .card-header {
+            padding: .75rem 1.25rem;
+            margin-bottom: 0;
+            background-color: rgba(0, 0, 0, .03);
+            border-bottom: 1px solid rgba(0, 0, 0, .125);
+        }
+
+        .table:not(.table-sm) thead th {
+            border-bottom: none;
+            background-color: #e9e9eb;
+            color: #666;
+            padding-top: 15px;
+            padding-bottom: 15px;
+        }
+
+        .table .table-img img {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            border: 2px solid #bbbbbb;
+            -webkit-box-shadow: 5px 6px 15px 0px rgba(49, 47, 49, 0.5);
+            -moz-box-shadow: 5px 6px 15px 0px rgba(49, 47, 49, 0.5);
+            -ms-box-shadow: 5px 6px 15px 0px rgba(49, 47, 49, 0.5);
+            box-shadow: 5px 6px 15px 0px rgba(49, 47, 49, 0.5);
+            text-shadow: 0 0 black;
+        }
+
+        .table .team-member-sm {
+            width: 32px;
+            -webkit-transition: all 0.25s ease;
+            -o-transition: all 0.25s ease;
+            -moz-transition: all 0.25s ease;
+            transition: all 0.25s ease;
+        }
+
+        .table .team-member {
+            position: relative;
+            width: 30px;
+            white-space: nowrap;
+            border-radius: 1000px;
+            vertical-align: bottom;
+            display: inline-block;
+        }
+
+        .table .order-list li img {
+            border: 2px solid #ffffff;
+            box-shadow: 4px 3px 6px 0 rgba(0, 0, 0, 0.2);
+        }
+
+        .table .team-member img {
+            width: 100%;
+            max-width: 100%;
+            height: auto;
+            border: 0;
+            border-radius: 1000px;
+        }
+
+        .rounded-circle {
+            border-radius: 50% !important;
+        }
+
+        .table .order-list li+li {
+            margin-left: -14px;
+            background: transparent;
+        }
+
+        .avatar.avatar-sm {
+            font-size: 12px;
+            height: 30px;
+            width: 30px;
+        }
+
+        .avatar {
+            background: #6777ef;
+            border-radius: 50%;
+            color: #e3eaef;
+            display: inline-block;
+            font-size: 16px;
+            font-weight: 300;
+            margin: 0;
+            position: relative;
+            vertical-align: middle;
+            line-height: 1.28;
+            height: 45px;
+            width: 45px;
+        }
+
+        .table .order-list li .badge {
+            background: rgba(228, 222, 222, 0.8);
+            color: #6b6f82;
+            margin-bottom: 6px;
+        }
+
+        .badge {
+            vertical-align: middle;
+            padding: 7px 12px;
+            font-weight: 600;
+            letter-spacing: 0.3px;
+            border-radius: 30px;
+            font-size: 12px;
+        }
+
+        .progress-bar {
+            display: -ms-flexbox;
+            display: -webkit-box;
+            display: flex;
+            -ms-flex-direction: column;
+            -webkit-box-orient: vertical;
+            -webkit-box-direction: normal;
+            flex-direction: column;
+            -ms-flex-pack: center;
+            -webkit-box-pack: center;
+            justify-content: center;
+            overflow: hidden;
+            color: #fff;
+            text-align: center;
+            white-space: nowrap;
+            background-color: #007bff;
+            -webkit-transition: width .6s ease;
+            transition: width .6s ease;
+        }
+
+        .bg-success {
+            background-color: #54ca68 !important;
+        }
+
+        .bg-purple {
+            background-color: #9c27b0 !important;
+            color: #fff;
+        }
+
+        .bg-cyan {
+            background-color: #10cfbd !important;
+            color: #fff;
+        }
+
+        .bg-red {
+            background-color: #f44336 !important;
+            color: #fff;
+        }
+
+        .progress {
+            -webkit-box-shadow: 0 0.4rem 0.6rem rgba(0, 0, 0, 0.15);
+            box-shadow: 0 0.4rem 0.6rem rgba(0, 0, 0, 0.15);
+        }
+    </style>
+</head>
+
+<body>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css"
+        integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+  
+    <!-- <div class="container"> -->
+        <!-- <div class="row">  -->
+            <!-- <div class="col-12 col-sm-12 col-md-12"> -->
+                <div class="card ">
+                    <div class="card-header mr-auto justify-content-between navbar-light bg-light" style="width: 97%;margin: 10px 10px 5px 10px;">
+                        <a class="navbar-brand">{{group}}</a>
+                        <ul class="nav nav-pills card-header-pills ">
+                            <li class="nav-item px-1">
+                            {% if group.id %}
+                              <a class="nav-link active" style="background-color: #f8b739" href="{% url 'add_expense' group_id=group.id %}" >Add an Expense</a>
+                                {% endif %}
+                            </li>
+                            <li class="nav-item px-1 ">
+                                <a class="nav-link active " style="background-color: #f8b739;" href="#">Settle Up</a>
+                              </li>
+                          </ul>
+                    </div>
+                    
+                    <div class="card-body">
+                        <div class="table-responsive" id="proTeamScroll" tabindex="2"
+                            style="height: 400px; overflow: hidden; outline: none;">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Cust.</th>
+                                        <th>Project</th>
+                                        <th>Assign Date</th>
+                                        <th>Team</th>
+                                        <th>Priority</th>
+                                        <th>Status</th>
+                                        <!-- <th>Edit</th> -->
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for expense in you_paid_expenses %}
+                                    <tr>
+                                        <td class="table-img"><img
+                                                src="https://bootdey.com/img/Content/avatar/avatar8.png" alt>
+                                        </td>
+                                        <td>
+                                            <p class="m-0 font-12">
+                                                <span class="col-green font-weight-bold">{{ expense.description }} </span>
+                                            </p>
+                                        </td>
+                                        <td>20-02-2018</td>
+                                        <td class="text-truncate">
+                                            <ul class="list-unstyled order-list m-b-0">
+                                                <li class="team-member team-member-sm"><img class="rounded-circle"
+                                                    src="https://bootdey.com/img/Content/avatar/avatar1.png"
+                                                    alt="user" data-toggle="tooltip" title
+                                                    data-original-title="Wildan Ahdian"></li>
+                                                    <li class="team-member team-member-sm"><img class="rounded-circle"
+                                                        src="https://bootdey.com/img/Content/avatar/avatar2.png"
+                                                        alt="user" data-toggle="tooltip" title
+                                                        data-original-title="John Deo"></li>
+                                                        <li class="team-member team-member-sm"><img class="rounded-circle"
+                                                            src="https://bootdey.com/img/Content/avatar/avatar3.png"
+                                                            alt="user" data-toggle="tooltip" title
+                                                        data-original-title="Sarah Smith"></li>
+                                                <li class="avatar avatar-sm"><span class="badge badge-primary">+4</span>
+                                                </li>
+                                            </ul>
+                                        </td>
+                                        <td>
+                                            <div class="badge-outline col-red">{{total_you_paid}}</div>
+                                        </td>
+                                        <td class="align-middle">
+                                            <div class="progress-text">50%</div>
+                                            <div class="progress" data-height="6" style="height: 6px;">
+                                                <div class="progress-bar bg-success" data-width="50%"
+                                                style="width: 50%;"></div>
+                                            </div>
+                                        </td>
+                                        <!-- <td>
+                                            <a data-toggle="tooltip" title data-original-title="Edit"><i
+                                                    class="fas fa-pencil-alt"></i></a>
+                                            <a data-toggle="tooltip" title data-original-title="Delete"><i
+                                                    class="far fa-trash-alt"></i></a>
+                                                </td> -->
+                                    </tr>
+                                    {% endfor%}
+                                    <tr>
+                                        <td class="table-img"><img
+                                                src="https://bootdey.com/img/Content/avatar/avatar1.png" alt>
+                                            </td>
+                                        <td>
+                                            <h6 class="mb-0 font-13">Android Game App</h6>
+                                            <p class="m-0 font-12">
+                                                Assigned to<span class="col-green font-weight-bold"> Sarah Smith</span>
+                                            </p>
+                                        </td>
+                                        <td>22-05-2019</td>
+                                        <td class="text-truncate">
+                                            <ul class="list-unstyled order-list m-b-0">
+                                                <li class="team-member team-member-sm"><img class="rounded-circle"
+                                                        src="https://bootdey.com/img/Content/avatar/avatar1.png"
+                                                        alt="user" data-toggle="tooltip" title
+                                                        data-original-title="Wildan Ahdian"></li>
+                                                <li class="team-member team-member-sm"><img class="rounded-circle"
+                                                        src="https://bootdey.com/img/Content/avatar/avatar3.png"
+                                                        alt="user" data-toggle="tooltip" title
+                                                        data-original-title="John Deo"></li>
+                                                <li class="team-member team-member-sm"><img class="rounded-circle"
+                                                        src="https://bootdey.com/img/Content/avatar/avatar4.png"
+                                                        alt="user" data-toggle="tooltip" title
+                                                        data-original-title="Sarah Smith"></li>
+                                                <li class="avatar avatar-sm"><span class="badge badge-primary">+4</span>
+                                                </li>
+                                            </ul>
+                                        </td>
+                                        <td>
+                                            <div class="badge-outline col-green">Low</div>
+                                        </td>
+                                        <td class="align-middle">
+                                            <div class="progress-text">55%</div>
+                                            <div class="progress" data-height="6" style="height: 6px;">
+                                                <div class="progress-bar bg-purple" data-width="55%"
+                                                    style="width: 55%;"></div>
+                                            </div>
+                                        </td>
+                                      
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                <!-- </div>
+            </div>
+        </div> -->
+    </div>
+
+    <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.bundle.min.js"></script>
+    <script type="text/javascript">
+
+    </script>
+
+<!-- group_detail.html -->
+
+
+
+
+</body>
+
+</html>

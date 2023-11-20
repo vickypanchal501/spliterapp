@@ -1,5 +1,6 @@
 {% load static %}
 
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -24,6 +25,7 @@
 </head>
 
 <body class="d-flex flex-column h-100">
+    
     <main class="flex-shrink-0">
         <!-- Navigation-->
         <nav class="navbar navbar-expand-lg navbar-light bg-white py-3">
@@ -36,27 +38,28 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav ms-auto mb-2 mb-lg-0 small fw-bolder">
                         <li class="nav-item"><a class="nav-link" href="{% url 'index' %}">Home</a></li>
-                        <li class="nav-item"><a class="nav-link" href="{% url 'create_group' %}">Create Group </a></li>
-                        {% if user.is_authenticated %} 
-                        <li class="nav-item"><a class="btn btn-primary btn-sm" href="{% url 'logout' %}">Logout</a></li>
-                        {% else %}
+                        <li class="nav-item"><a class="nav-link" href="#">Create Group </a></li>
                         <li class="nav-item text-gradient"><a class="nav-link fw-bolder "
                                 href="{% url 'Login' %}"><u>Login</u></a></li>
                         <li class="nav-item"><a class="btn btn-primary btn-sm" href="{% url 'Signup' %}">SignUp</a></li>
-                        {% endif %}
+                        
                     </ul>
                 </div>
             </div>
         </nav>
-        {% if messages %}
+        <!-- {% if messages %}
         {% for message in messages %}
         <script>
             alert("{{ message }}");
         </script>
 
         {% endfor %}
-        {% endif %}
+        {% endif %} -->
         <!-- Header-->
+        
+       
+    
+            
         <header class="py-5">
             <div class="container px-5 pb-5">
                 <div class="row gx-5 align-items-center">
