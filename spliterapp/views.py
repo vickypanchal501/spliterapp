@@ -31,14 +31,15 @@ def group_detail(request, group_id):
           
     return render(request, 'group/base.html', {'group': group, 'user_groups': user_groups, 'user_id': user })
 
+  # Import your UserExpense model
 
 def add_expense(request, group_id):
     group = Group.objects.get(id=group_id)
-    split_amount = 0 
-    # import pdb; pdb.set_trace()
+    split_amount = 0
+
     if request.method == 'POST':
-        form = ExpenseForm(group,request.POST)
-        
+        form = ExpenseForm(group, request.POST)
+
         if form.is_valid():
             expense = form.save(commit=False)
             expense.created_by = request.user
@@ -50,18 +51,21 @@ def add_expense(request, group_id):
             split_amount = form.cleaned_data['split_amount']
 
             # Calculate the amount for each user
-            amount_per_user = split_amount / (len(split_with_users) + 1)
-            expense.split_amount = amount_per_user
-            expense.save()
+            
+            # Save the split amount for each selected user
+            # for user in split_with_users:
+            #     UserExpense.objects.create(expense=expense, user=user, split_amount=amount_per_user)
 
             # Add the creator to the split_with users
             split_with_users = list(split_with_users)
             split_with_users.append(request.user)
             expense.split_with.set(split_with_users)
+            split_amount_per_user = split_amount / (len(split_with_users) + 1)
 
             return redirect('group_detail', group_id=group.id)
     else:
         form = ExpenseForm(group)
+
     context = {
         'group': group,
         'form': form,
