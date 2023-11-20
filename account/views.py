@@ -21,11 +21,16 @@ def Main(request,):
     user = request.user  # Get the current user
     user_groups = Group.objects.filter(members=user)
 <<<<<<< HEAD
+<<<<<<< HEAD
     
     return render(request, "group/base.html",{'user_groups': user_groups})
 =======
     return render(request, "group/main.html",{'user_groups': user_groups})
 >>>>>>> vikas
+=======
+    
+    return render(request, "group/base.html",{'user_groups': user_groups})
+>>>>>>> vikcy
 ################ login forms################################################### 
 def Login(request):
 	if request.method == 'POST':

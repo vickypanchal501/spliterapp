@@ -7,14 +7,18 @@ class GroupMember(admin.ModelAdmin):
 admin.site.register(Group,GroupMember)
 # admin.site.register(Group)
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 <<<<<<< HEAD
 >>>>>>> vikas
+=======
+>>>>>>> vikcy
 class ExpenseAdmin(admin.ModelAdmin):
     list_display = ('description', 'group', 'split_amount', 'created_by','split_amount_per_user')
     search_fields = ['description']
 
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 admin.site.register(Expense, ExpenseAdmin)
 =======
@@ -26,3 +30,6 @@ class ExpenseDetail(admin.ModelAdmin):
 admin.site.register(Expense,ExpenseDetail)
 >>>>>>> parent of dfdcf37 (this is commit today add expense in admin07/11/2023)
 >>>>>>> vikas
+=======
+admin.site.register(Expense, ExpenseAdmin)
+>>>>>>> vikcy

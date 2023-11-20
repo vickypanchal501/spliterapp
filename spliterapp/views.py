@@ -2,11 +2,15 @@ from django.shortcuts import render, redirect
 from .models import Group, Expense
 from account.models import CustomUser
 <<<<<<< HEAD
+<<<<<<< HEAD
 from .forms import ExpenseForm
 =======
 # from .forms import ExpenseForm 
 
 >>>>>>> vikas
+=======
+from .forms import ExpenseForm
+>>>>>>> vikcy
 
 def create_group(request):
     if request.method == 'POST':
@@ -17,6 +21,9 @@ def create_group(request):
         group.save()
         return redirect('group_detail', group_id=group.id)
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> vikcy
     return render(request, 'group/base.html')
 
 def group_detail(request, group_id):
@@ -24,6 +31,7 @@ def group_detail(request, group_id):
     user = request.user
     user_groups = Group.objects.filter(members=user)
 
+<<<<<<< HEAD
 =======
     return render(request, 'group/main.html')
 
@@ -34,6 +42,8 @@ def group_detail(request, group_id):
 
 
 >>>>>>> vikas
+=======
+>>>>>>> vikcy
     if request.method == 'POST':
         invited_user_username = request.POST.get('invited_user')
         try:
@@ -44,6 +54,7 @@ def group_detail(request, group_id):
         except CustomUser.DoesNotExist:
             # Handle the case where the user doesn't exist
             pass
+<<<<<<< HEAD
 <<<<<<< HEAD
 =======
 <<<<<<< HEAD
@@ -60,6 +71,20 @@ def add_expense(request, group_id):
     if request.method == 'POST':
         form = ExpenseForm(group,request.POST)
         
+=======
+          
+    return render(request, 'group/base.html', {'group': group, 'user_groups': user_groups, 'user_id': user })
+
+  # Import your UserExpense model
+
+def add_expense(request, group_id):
+    group = Group.objects.get(id=group_id)
+    split_amount = 0
+
+    if request.method == 'POST':
+        form = ExpenseForm(group, request.POST)
+
+>>>>>>> vikcy
         if form.is_valid():
             expense = form.save(commit=False)
             expense.created_by = request.user
@@ -71,14 +96,22 @@ def add_expense(request, group_id):
             split_amount = form.cleaned_data['split_amount']
 
             # Calculate the amount for each user
+<<<<<<< HEAD
             amount_per_user = split_amount / (len(split_with_users) + 1)
             expense.split_amount = amount_per_user
             expense.save()
+=======
+            
+            # Save the split amount for each selected user
+            # for user in split_with_users:
+            #     UserExpense.objects.create(expense=expense, user=user, split_amount=amount_per_user)
+>>>>>>> vikcy
 
             # Add the creator to the split_with users
             split_with_users = list(split_with_users)
             split_with_users.append(request.user)
             expense.split_with.set(split_with_users)
+<<<<<<< HEAD
 
             return redirect('group_detail', group_id=group.id)
     else:
@@ -119,6 +152,14 @@ def expense(request):
 <<<<<<< HEAD
 >>>>>>> vikas
         form = ExpenseForm(group)
+=======
+            split_amount_per_user = split_amount / (len(split_with_users) + 1)
+
+            return redirect('group_detail', group_id=group.id)
+    else:
+        form = ExpenseForm(group)
+
+>>>>>>> vikcy
     context = {
         'group': group,
         'form': form,
@@ -127,6 +168,7 @@ def expense(request):
     return render(request, 'expense/expense.html', context)
 
 def checkbox(request):
+<<<<<<< HEAD
 <<<<<<< HEAD
     return render(request, "expense/checkbox.html")
 =======
@@ -169,3 +211,6 @@ def checkbox(request):
     return render(request, 'expense/expense.html', {'form': form, 'group': group})
 >>>>>>> parent of 0701fcf (this is today commit enhance ui 08/11/20123)
 >>>>>>> vikas
+=======
+    return render(request, "expense/checkbox.html")
+>>>>>>> vikcy
