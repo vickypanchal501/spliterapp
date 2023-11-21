@@ -3,6 +3,12 @@ from .models import Group, Expense
 from account.models import CustomUser
 from .forms import ExpenseForm
 
+from django.shortcuts import get_object_or_404, redirect
+from django.http import JsonResponse
+
+from .models import Group
+
+
 def create_group(request):
     user = request.user
     user_groups = Group.objects.filter(members=user)
@@ -32,7 +38,7 @@ def group_detail(request, group_id):
             pass
           
     return render(request, 'group/base.html', {'group': group, 'user_groups': user_groups, 'user_id': user })
-# Your existing view code ...
+
 
 def add_expense(request, group_id):
     group = Group.objects.get(id=group_id)
@@ -76,11 +82,9 @@ def add_expense(request, group_id):
 def checkbox(request):
     return render(request, "expense/checkbox.html")
 
-from django.shortcuts import get_object_or_404, redirect
-from django.http import JsonResponse
-from .models import Group
+
 
 def delete_group(request, group_id):
-    group = get_object_or_404(Group, id=group_id)
+    group = get_object_or_404(Group, pk=group_id)
     group.delete()
     return JsonResponse({'message': 'Group deleted successfully'})

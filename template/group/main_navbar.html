@@ -25,12 +25,15 @@
                         class="dropdown-toggle">Groups</a>
                     <ul class="collapse list-unstyled" id="aboutSubmenu">
                         {% for group in user_groups %}
-                        <li style="display: flex; justify-content: space-between; border-bottom: 1px solid rgba(255, 255, 255, 0.1);">
-                            <!-- <span style="display: flex;justify-content: space-between;"> -->
-                                
-                                <a href="{% url 'group_detail' group_id=group.id %}" style="border: none;">{{ group.name }}</a> <button class="delete-group-btn" data-toggle="modal" data-target="#confirmationModal"  data-group-id="{{ group.id }}" style="background: none; border: none;"><i class="fa fa-trash" aria-hidden="true"  style="margin-top: 14px; color: #f8b739;"></i></button>
+                        <li
+                            style="display: flex; justify-content: space-between; border-bottom: 1px solid rgba(255, 255, 255, 0.1);">
+                            <a data-group-id="{{ group.id }}" href="{% url 'group_detail' group_id=group.id %}"
+                                style="border: none;">{{ group.name }}</a>
+                            <button class="delete-group-btn" data-group-id="{{ group.id }}" data-toggle="modal"
+                                data-target="#confirmationModal" style="background: none; border: none;">
+                                <i class="fa fa-trash" aria-hidden="true" style="margin-top: 14px; color: #f8b739;"></i>
+                            </button>
                         </li>
-
                         {% endfor %}
 
                     </ul>
@@ -151,48 +154,53 @@
 
 <!-- Inside your HTML template -->
 <script>
-    const deleteGroupBtn = document.querySelector('.delete-group-btn');
-    const confirmationModal = document.getElementById('confirmationModal');
-    const confirmDeleteBtn = document.querySelector('.confirm-delete-btn');
-    const cancelDeleteBtn = document.querySelector('.cancel-delete-btn');
+    document.addEventListener('DOMContentLoaded', function () {
+        const deleteGroupBtns = document.querySelectorAll('.delete-group-btn');
+        const confirmationModal = document.getElementById('confirmationModal');
+        const confirmDeleteBtn = document.querySelector('.confirm-delete-btn');
+        const cancelDeleteBtn = document.querySelector('.cancel-delete-btn');
 
-    deleteGroupBtn.addEventListener('click', () => {
-        confirmationModal.style.display = 'block';
-    });
-
-    cancelDeleteBtn.addEventListener('click', () => {
-        confirmationModal.style.display = 'none';
-    });
-
-    confirmDeleteBtn.addEventListener('click', () => {
-        // Get the group ID from the data attribute
-        const groupId = deleteGroupBtn.getAttribute('data-group-id');
-
-        // Make an AJAX request or redirect to a Django view to delete the group
-        // Example using AJAX:
-        fetch(`/delete_group/${groupId}/`, {
-            method: 'DELETE',
-            headers: {
-                'X-CSRFToken': getCookie('csrftoken'), // Include CSRF token for security
-            },
-        })
-        .then(response => response.json())
-        .then(data => {
-            // Handle success or show an alert
-            alert('Group deleted successfully!');
-            // Redirect to a different page or update the UI as needed
-            window.location.href = '/create_group/';
-        })
-        .catch(error => {
-            console.error('Error deleting group:', error);
-            alert('Error deleting group. Please try again.');
+        deleteGroupBtns.forEach(deleteGroupBtn => {
+            deleteGroupBtn.addEventListener('click', () => {
+                confirmationModal.style.display = 'block';
+                const groupId = deleteGroupBtn.getAttribute('data-group-id');
+                confirmDeleteBtn.setAttribute('data-group-id', groupId);
+            });
         });
+
+        cancelDeleteBtn.addEventListener('click', () => {
+            confirmationModal.style.display = 'none';
+        });
+
+        confirmDeleteBtn.addEventListener('click', () => {
+            const groupId = confirmDeleteBtn.getAttribute('data-group-id');
+
+            // Make an AJAX request or redirect to a Django view to delete the group
+            fetch(`/delete_group/${groupId}/`, {
+                method: 'DELETE',
+                headers: {
+                    'X-CSRFToken': getCookie('csrftoken'), // Include CSRF token for security
+                },
+            })
+                .then(response => response.json())
+                .then(data => {
+                    alert('Group deleted successfully!');
+                    window.location.href = '/create_group/';
+                })
+                .catch(error => {
+                    console.error('Error deleting group:', error);
+                    alert('Error deleting group. Please try again.');
+                });
+
+            confirmationModal.style.display = 'none';
+        });
+
+        // Function to get CSRF token from cookies
+        function getCookie(name) {
+            const value = `; ${document.cookie}`;
+            const parts = value.split(`; ${name}=`);
+            if (parts.length === 2) return parts.pop().split(';').shift();
+        }
     });
 
-    // Function to get CSRF token from cookies
-    function getCookie(name) {
-        const value = `; ${document.cookie}`;
-        const parts = value.split(`; ${name}=`);
-        if (parts.length === 2) return parts.pop().split(';').shift();
-    }
 </script>
