@@ -5,10 +5,9 @@ from .forms import ExpenseForm
 
 from django.shortcuts import get_object_or_404, redirect
 from django.http import JsonResponse
-
 from .models import Group
 
-
+from django.db.models import Sum
 def create_group(request):
     user = request.user
     user_groups = Group.objects.filter(members=user)
@@ -67,8 +66,20 @@ def add_expense(request, group_id):
             amount_per_user = split_amount / len(expense.split_with.all())
             expense.split_amount = amount_per_user
             expense.save()
+            print(len(expense.split_with.all()))
+             # Calculate amount paid by the user
+            amount_paid_by_user = split_amount
+            expense.amount_paid_by_user = amount_paid_by_user
+            # Calculate amount lent (or owed) by the user
+            # amount_lent_by_user = Expense.objects.filter(group=group, split_with=request.user).aggregate(Sum('split_amount'))['split_amount__sum'] or 0
+            amount_lent_by_user =amount_per_user* (len(expense.split_with.all())-1)
+            expense.amount_lent_by_user = amount_lent_by_user
+            expense.save()
 
-            return redirect('group_detail', group_id=group.id)
+            return render(request, 'group/base.html', {
+                'expenses': expense,
+                
+            })
     else:
         form = ExpenseForm(group)
     

@@ -17,6 +17,17 @@ class Expense(models.Model):
     split_amount = models.DecimalField(max_digits=10, decimal_places=2)
     date = models.DateField(auto_now_add=True)
     paid_by = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='expenses_payer' )
-    split_amount_per_user = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
+    amount_paid_by_user = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
+    amount_lent_by_user = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
+    
+    paid_by_name = models.CharField(max_length=255, blank=True, null=True)
+    
+    
+    
     def __str__(self):
         return self.description
+    
+    def save(self, *args, **kwargs):
+        # Set the name of the user who paid before saving the expense
+        self.paid_by_name = self.paid_by.username
+        super().save(*args, **kwargs)

@@ -326,6 +326,16 @@
                 <!-- </div>
             </div>
         </div> -->
+
+    {% for expense in Expense.objects.all %}
+    Description: {{ expense.description }}
+      Amount: ${{ expense.split_amount }}
+      Paid by: {{ expense.paid_by_name }}
+      <p>Amount paid by you: ${{ expense.amount_paid_by_user }}</p>
+
+<!-- Display amount lent (or owed) by the user -->
+        <p>Amount lent (or owed) by you: ${{ expense.amount_lent_by_user }}</p>
+    {% endfor%}
     </div>
 
     <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
