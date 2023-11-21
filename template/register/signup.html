@@ -23,14 +23,14 @@
 
 <body>
     {% if messages %}
-    
+
     {% for message in messages %}
     <script>
         alert('{{ message }}')
     </script>
     {% endfor %}
 
-{% endif %}
+    {% endif %}
 
     <section class="vh-100" style="background-color: #eee;">
         <div class="container h-100">
@@ -43,8 +43,8 @@
 
                                     <p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Sign up</p>
 
-                                    <form id="signup-form" onSubmit="return checkPassword(this)" class="mx-1 mx-md-4" method="post"
-                                        action="{% url 'Signup' %}">
+                                    <form id="signup-form" onsubmit="return submitForm();" class="mx-1 mx-md-4"
+                                        method="post" action="{% url 'Signup' %}">
                                         {% csrf_token %}
                                         <!-- <div class="d-flex flex-row align-items-center mb-4">
                                             <i class="fas fa-user fa-lg me-3 fa-fw"></i>
@@ -101,7 +101,8 @@
                                             <a class="btn btn-dark-subtle border btn-lg m-2"
                                                 href="{% url 'index' %}">Cancel</a>
                                             <button type="submit" id="signup-btn" class="btn btn-primary btn-lg m-2"
-                                                onclick="submitForm()" ondblclick="disableButton()" value="SUBMIT">Signup</button>
+                                                onclick="submitForm()" ondblclick="disableButton()"
+                                                value="SUBMIT">Signup</button>
                                         </div>
 
                                     </form>
@@ -124,44 +125,38 @@
         </div>
     </section>
     <script>
-
         function submitForm() {
-            
-            document.contact - form.submit();
-            document.contact - form.reset();
+            var form = document.getElementById('signup-form');
+            if (checkPassword(form)) {
+                document.getElementById('signup-btn').disabled = true;
+                form.submit();
+                form.reset();
+            }
+            return false;
         }
 
-        // Function to check Whether both passwords 
-        // is same or not. 
         function checkPassword(form) {
-            password1 = form.password1.value;
-            password2 = form.password2.value;
+            var password1 = form.password1.value;
+            var password2 = form.password2.value;
 
-            // If password not entered 
-            if (password1 == '' || String(password1).length <= 7)
-                alert("Please enter  Password minimum 8 charecter");
-
-            // If confirm password not entered 
-            else if (password2 == '' || String(password1).length <= 7)
-                alert("Please enter  Password minimum 8 charecter");
-
-            // If Not same return False.     
-            else if (password1 != password2) {
-                alert("\nPassword did not match: Please try again...")
+            if (password1.length < 8 || password2.length < 8) {
+                alert("Please enter a password with a minimum of 8 characters");
                 return false;
             }
 
+            if (password1 !== password2) {
+                alert("Passwords do not match. Please try again.");
+                return false;
+            }
+
+            return true;
         }
-        $(document).ready(function () {
-        $("#signup-form").submit(function () {
-            // Disable the signup button when the form is submitted
-            $("#signup-btn").prop("disabled", true);
-        });
-    });
-       
+
+
+
     </script>
 
-    
+
     <!-- <script type="text/javascript" src="{% static 'js/scripts.js' %}"></script> -->
     <!-- MDB -->
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.2/mdb.min.js"></script>

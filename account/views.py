@@ -43,7 +43,7 @@ def Login(request):
             messages.success(request, f" welcome {username} !!")
             return redirect("Main")
         else:
-            messages.info(request, f"account done not exit plz sign in")
+            messages.info(request, f"account do not exit plz sign in")
     form = AuthenticationForm()
     return render(request, "register/login.html", {"form": form, "title": "log in"})
 
