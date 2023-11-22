@@ -69,7 +69,7 @@ def VerifyOTP(request):
             del request.session["signup_otp"]
             del request.session["signup_user_id"]
 
-            user = CustomUser.objects.get(pk=user_id)
+            user = CustomUser.objects.get(id=user_id)
             user.is_active = True
             user.save()
 
@@ -81,16 +81,17 @@ def VerifyOTP(request):
         # return render(request,"re")
         else:
             messages.error(request, "Invalid OTP. Please try again.")
+          
     return render(request, "register/verify_otp.html", {"username": username1})
 
 
-from django.contrib import messages
 
 
 def Signup(request):
     if request.method == "POST":
         # import pdb; pdb.set_trace()
         form = SignUpForm(request.POST)
+        # import pdb; pdb.set_trace()
         if form.is_valid():
             email = form.cleaned_data.get("email")
 
@@ -107,7 +108,7 @@ def Signup(request):
             user = form.save()
             username = form.cleaned_data.get("username")
             # Generate a random OTP
-
+            
             otp = random.randint(100000, 999999)
 
             # Create the email content
@@ -123,33 +124,20 @@ def Signup(request):
             msg.send()
 
             # request.session['username1'] = user
-            request.session['signup_submitted'] = True
+            # request.session['signup_submitted'] = True
             request.session["signup_otp"] = otp
             request.session["signup_user_id"] = user.id
             request.session["username1"] = username
 
-            messages.success(
-                request,
-                f"An OTP has been sent to your email. Please verify your email.",
-            )
+            
             return redirect(
                 "VerifyOTP",
             )
             # return render(request, 'register/verify_otp.html', {'username' : username})
 
         else:
-            request.session.pop('signup_submitted', None)   
-            email = form.cleaned_data.get("email")
-            if not CustomUser.objects.filter(email=email).exists():
-                messages.error(
-                    request,
-                    f"This email is not registered. please try again .",
-                )
-                return render(
-                    request,
-                    "register/login.html",
-                    {"form": form, "title": "Register Here"},
-                )
+            # request.session.pop('signup_submitted', None)   
+            
             # messages.success(request, f'Your Email Id is Alerady register . You can direct Login.')
             return render(
                 request,

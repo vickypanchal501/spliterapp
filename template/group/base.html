@@ -1,6 +1,23 @@
 {% include 'group/main_header.html' %}
 {% include 'group/main_navbar.html' %}
 
+<!-- Display amount paid by the user -->
 
+<!-- Display amount lent (or owed) by the user -->
+
+<!-- Display all group expenses -->
+<h3>Group Expenses:</h3>
+<ul>
+    {% for expense in group_expenses %}
+    <li>
+        Description: {{ expense.description }}
+        <p>Amount paid by you: ${{ expense.amount_paid_by_user }}</p>
+        <p>Amount lent (or owed) by you: ${{ expense.amount_lent_by_user }}</p>
+      <p>Split_Amount: ${{ expense.split_amount }}</p>
+      <p>Paid by: {{ expense.paid_by_name }}</p>
+      <!-- Add other details as needed -->
+    </li>
+  {% endfor %}
+</ul>
 
 {% include 'group/main_footer.html' %}

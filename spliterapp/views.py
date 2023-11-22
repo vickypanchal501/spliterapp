@@ -35,17 +35,16 @@ def group_detail(request, group_id):
         except CustomUser.DoesNotExist:
             # Handle the case where the user doesn't exist
             pass
-          
-    return render(request, 'group/base.html', {'group': group, 'user_groups': user_groups, 'user_id': user })
-
+    group_expenses = Expense.objects.filter(group=group)      
+    return render(request, 'group/base.html', {'group': group, 'user_groups': user_groups, 'user_id': user ,'group_expenses':group_expenses })
 
 def add_expense(request, group_id):
     group = Group.objects.get(id=group_id)
-    split_amount = 0 
+    split_amount = 0
 
     if request.method == 'POST':
         form = ExpenseForm(group, request.POST)
-        
+
         if form.is_valid():
             expense = form.save(commit=False)
             expense.created_by = request.user
@@ -53,36 +52,38 @@ def add_expense(request, group_id):
 
             # Get split amount from the form
             split_amount = form.cleaned_data['split_amount']
-            
+
             # Save the expense without calculating split amount for now
             expense.save()
 
             # Add the creator to the split_with users
             split_with_users = list(form.cleaned_data['split_with'])
-            split_with_users.append(request.user)
+            # split_with_users.append(request.user)
             expense.split_with.set(split_with_users)
 
             # Calculate the amount for each user
             amount_per_user = split_amount / len(expense.split_with.all())
             expense.split_amount = amount_per_user
             expense.save()
-            print(len(expense.split_with.all()))
-             # Calculate amount paid by the user
-            amount_paid_by_user = split_amount
-            expense.amount_paid_by_user = amount_paid_by_user
+
+            # Set lent amount based on whether the current user is a member of the group
+            is_member = request.user in expense.split_with.all()
+            print(expense.split_with.all())
+            print(is_member)
             # Calculate amount lent (or owed) by the user
-            # amount_lent_by_user = Expense.objects.filter(group=group, split_with=request.user).aggregate(Sum('split_amount'))['split_amount__sum'] or 0
-            amount_lent_by_user =amount_per_user* (len(expense.split_with.all())-1)
-            expense.amount_lent_by_user = amount_lent_by_user
+            amount_lent_by_user = amount_per_user * (len(expense.split_with.all()) - 1)
+            expense.amount_lent_by_user = amount_lent_by_user  if is_member else split_amount
+            # Calculate amount paid by the user
+            expense.amount_paid_by_user = split_amount if is_member else split_amount
+
             expense.save()
 
-            return render(request, 'group/base.html', {
-                'expenses': expense,
-                
-            })
+            # Redirect to a different URL after successful form submission
+            return redirect('group_detail', group_id=group.id)
+
     else:
         form = ExpenseForm(group)
-    
+
     context = {
         'group': group,
         'form': form,
