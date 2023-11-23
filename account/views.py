@@ -28,26 +28,30 @@ def Main(
 
     return render(request, "group/base.html", {"user_groups": user_groups})
 
-
-################ login forms###################################################
 def Login(request):
     if request.method == "POST":
-        # AuthenticationForm_can_also_be_used__
+        email = request.POST.get("email")
+        password = request.POST.get("password")
 
-        username = request.POST["username"]
-        password = request.POST["password"]
-        user = authenticate(request, username=username, password=password)
+        # Check if user with the provided email exists
+        try:
+            user = CustomUser.objects.get(email=email)
+        except CustomUser.DoesNotExist:
+            user = None
+
         if user is not None:
-            form = login(request, user)
-            messages.success(request, f" welcome {username} !!")
-            return redirect("Main")
+            authenticated_user = authenticate(request, email=email, password=password)
+
+            if authenticated_user is not None:
+                login(request, authenticated_user)
+                messages.success(request, f"Welcome {authenticated_user.username}!")
+                return redirect("Main")
+            else:
+                messages.error(request, "Invalid password. Please try again.")
         else:
-            messages.info(request, f"account do not exit plz sign in")
-    form = AuthenticationForm()
-    return render(request, "register/login.html", {"form": form, "title": "log in"})
-
-
-
+            messages.error(request, "Invalid email or user does not exist.")
+    
+    return render(request, "register/login.html", {"title": "Log in"})
 
 def Signup(request):
     if request.method == "POST":

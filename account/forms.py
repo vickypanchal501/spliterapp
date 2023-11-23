@@ -14,14 +14,14 @@ class NoSpaceValidator:
             )
 
 class SignUpForm(UserCreationForm):
-    username = forms.CharField(validators=[NoSpaceValidator()])
+    # username = forms.CharField(validators=[NoSpaceValidator()])
 
     class Meta:
         model = CustomUser
         fields = ['username', 'email', 'password1', 'password2']
 class OTPVerificationForm(forms.Form):
     otp = forms.CharField(max_length=6, widget=forms.TextInput(attrs={'placeholder': 'Enter OTP'}))
-    # class Meta:
-    #     model = OTPDevice
+#     class Meta:
+#         model = OTPDevice
     
         
