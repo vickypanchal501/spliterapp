@@ -8,14 +8,13 @@ from django.core.mail import send_mail
 from django.core.mail import EmailMultiAlternatives
 from django.template.loader import get_template
 from django.template import Context
-from .forms import SignUpForm
+from .forms import SignUpForm, OTPVerificationForm
 from .models import CustomUser
 from spliterapp.models import Group
-from django.contrib.auth.models import User
 
 
-# from spliterapp.views import main
-# from django.contrib.auth.models import User
+from django.contrib.auth.hashers import make_password
+
 def index(request):
     return render(request, "index.html")
 
@@ -48,67 +47,17 @@ def Login(request):
     return render(request, "register/login.html", {"form": form, "title": "log in"})
 
 
-# otp verification
-
-from django.core.mail import EmailMultiAlternatives
-from django.template.loader import get_template
-import random
-
-from django.contrib import messages
-
-
-def VerifyOTP(request):
-    # import pdb; pdb.set_trace()
-    username1 = request.session.get("username1")
-    if request.method == "POST":
-        entered_otp = request.POST.get("otp")
-        stored_otp = request.session.get("signup_otp")
-        user_id = request.session.get("signup_user_id")
-
-        if stored_otp and entered_otp == str(stored_otp):
-            del request.session["signup_otp"]
-            del request.session["signup_user_id"]
-
-            user = CustomUser.objects.get(id=user_id)
-            user.is_active = True
-            user.save()
-
-            messages.success(
-                request,
-                f"Your email has been verified, and your account is now active. You can log in.",
-            )
-            return redirect("Login")
-        # return render(request,"re")
-        else:
-            messages.error(request, "Invalid OTP. Please try again.")
-          
-    return render(request, "register/verify_otp.html", {"username": username1})
-
-
 
 
 def Signup(request):
     if request.method == "POST":
-        # import pdb; pdb.set_trace()
         form = SignUpForm(request.POST)
-        # import pdb; pdb.set_trace()
         if form.is_valid():
             email = form.cleaned_data.get("email")
-
-            if CustomUser.objects.filter(email=email).exists():
-                messages.error(
-                    request,
-                    f"This email is already registered. You can directly login.",
-                )
-                return render(
-                    request,
-                    "register/login.html",
-                    {"form": form, "title": "Register Here"},
-                )
-            user = form.save()
             username = form.cleaned_data.get("username")
+            password = form.cleaned_data.get("password1")
+
             # Generate a random OTP
-            
             otp = random.randint(100000, 999999)
 
             # Create the email content
@@ -123,29 +72,72 @@ def Signup(request):
             msg.attach_alternative(html_content, "text/html")
             msg.send()
 
-            # request.session['username1'] = user
-            # request.session['signup_submitted'] = True
+            # Store necessary information in the session for OTP verification
             request.session["signup_otp"] = otp
-            request.session["signup_user_id"] = user.id
-            request.session["username1"] = username
+            request.session["signup_username"] = username
+            request.session["signup_email"] = email
+            request.session["signup_password"] = password
 
-            
-            return redirect(
-                "VerifyOTP",
+            messages.success(
+                request, "An OTP has been sent to your email. Please verify your email."
             )
-            # return render(request, 'register/verify_otp.html', {'username' : username})
+            return redirect("VerifyOTP")
 
         else:
-            # request.session.pop('signup_submitted', None)   
-            
-            # messages.success(request, f'Your Email Id is Alerady register . You can direct Login.')
-            return render(
-                request,
-                "register/signup.html",
-                {"form": form, "title": "Register Here"},
-            )
+            messages.error(request, "Please correct the errors below.")
+
     else:
         form = SignUpForm()
+
     return render(
         request, "register/signup.html", {"form": form, "title": "Register Here"}
     )
+
+
+
+
+def VerifyOTP(request):
+    username = request.session.get("signup_username")
+    email = request.session.get("signup_email")
+    form = OTPVerificationForm(request.POST or None)
+
+    if request.method == "POST":
+        entered_otp = request.POST.get("otp")
+        stored_otp = request.session.get("signup_otp")
+
+        if stored_otp and entered_otp == str(stored_otp):
+            # Check if the user is already registered
+            existing_user = CustomUser.objects.filter(email=email).first()
+
+            if existing_user:
+                messages.warning(request, "User already registered. Please log in.")
+            else:
+                # Complete the registration process and save the user
+                user = CustomUser(username=username, email=email)
+                
+                # Set the user's password using the password stored in the session
+                user.password = make_password(request.session.get("signup_password"))
+                
+                user.save()
+                
+                # Authenticate and log in the user
+                authenticated_user = authenticate(username=username, password=request.session.get("signup_password"))
+                login(request, authenticated_user)
+                
+                messages.success(request, "Registration successful. You are now logged in.")
+            
+            if "signup_otp" in request.session:
+                del request.session["signup_otp"]
+            if "signup_username" in request.session:
+                del request.session["signup_username"]
+            if "signup_email" in request.session:
+                del request.session["signup_email"]
+            if "signup_password" in request.session:
+                del request.session["signup_password"]
+
+            return redirect("Login")  # Redirect to your home page
+
+        else:
+            messages.error(request, "Invalid OTP. Please try again.")
+
+    return render(request, "register/verify_otp.html", {"username": username, "form": form})

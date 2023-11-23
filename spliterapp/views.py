@@ -68,8 +68,7 @@ def add_expense(request, group_id):
 
             # Set lent amount based on whether the current user is a member of the group
             is_member = request.user in expense.split_with.all()
-            print(expense.split_with.all())
-            print(is_member)
+            
             # Calculate amount lent (or owed) by the user
             amount_lent_by_user = amount_per_user * (len(expense.split_with.all()) - 1)
             expense.amount_lent_by_user = amount_lent_by_user  if is_member else split_amount
