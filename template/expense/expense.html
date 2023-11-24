@@ -2,80 +2,93 @@
 
 
 <!-- MATERIAL DESIGN ICONIC FONT -->
-<link rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/material-design-iconic-font/2.2.0/css/material-design-iconic-font.min.css">
+<!-- <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/material-design-iconic-font/2.2.0/css/material-design-iconic-font.min.css"> -->
 <!-- STYLE CSS -->
 <link href="{% static 'css/expense/style.css.map' %}" rel="stylesheet" />
 <link href="{% static 'css/expense/style.css' %}" rel="stylesheet" />
 <!-- <link href="{% static 'css/expense/style.scss' %}" rel="stylesheet" /> -->
 
 
-<div class="modal-content" style="background: none;">
+<!-- <div class="modal-content" style="background: none;"> -->
 
+    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <!-- <div class="modal-dialog modal-dialog-centered" role="document"> -->
+        <div class="wrapper" style="max-width: 100%; margin: auto 0px;">
+            <!-- <form action=""> -->
+            <div id="wizard" role="application" class="wizard clearfix">
+                {% if group.id %}
+                <form method="post" action="{% url 'add_expense' group_id=group.id %}">
+                    <div class="content clearfix">
+                        {% csrf_token %}
+                        <h4 id="wizard-h-0" tabindex="-1" class="title current"></h4>
+                        <section id="wizard-p-0" role="tabpanel" aria-labelledby="wizard-h-0" class="body current"
+                            aria-hidden="false">
+                            <div class="form-header">
+                                <div class="avartar">
+                                    <a href="#">
+                                        <img src="images/avartar.png" alt="">
+                                    </a>
+                                    <div class="avartar-picker">
+                                        <input type="file" name="file-1[]" id="file-1" class="inputfile"
+                                            data-multiple-caption="{count} files selected" multiple="">
+                                        <label for="file-1">
+                                            <i class="zmdi zmdi-camera"></i>
+                                            <span>Choose Picture</span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="form-holder active" style="color: brown;">
+                                        <input type="text" placeholder="Add Description" class="form-control"
+                                            name="description" id="description" required>
+                                    </div>
+                                    <div class="form-holder">
+                                        <input type="number" placeholder="Add Amount" class="form-control"
+                                            name="split_amount" step="0.01" id="split_amount" required>
+                                    </div>
 
-    <div class="wrapper" style="max-width: 100%; margin: auto 0px;">
-        <!-- <form action=""> -->
-        <div id="wizard" role="application" class="wizard clearfix">
-            <form  method="post">
-                <div class="content clearfix">
-                    {% csrf_token %}
-                    <h4 id="wizard-h-0" tabindex="-1" class="title current"></h4>
-                    <section id="wizard-p-0" role="tabpanel" aria-labelledby="wizard-h-0" class="body current"
-                        aria-hidden="false">
-                        <div class="form-header">
-                            <div class="avartar">
-                                <a href="#">
-                                    <img src="images/avartar.png" alt="">
-                                </a>
-                                <div class="avartar-picker">
-                                    <input type="file" name="file-1[]" id="file-1" class="inputfile"
-                                        data-multiple-caption="{count} files selected" multiple="">
-                                    <label for="file-1">
-                                        <i class="zmdi zmdi-camera"></i>
-                                        <span>Choose Picture</span>
-                                    </label>
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <div class="form-holder active" style="color: brown;">
-                                    <input type="text" placeholder="Add Description" class="form-control"
-                                        name="description" id="description" required>
-                                </div>
-                                <div class="form-holder">
-                                    <input type="number" placeholder="Add Amount" class="form-control" name="split_amount" step="0.01" id="split_amount" required>
-                                </div>
+
+                            <div class="human_summary">Paid by <a class="payer"><select
+                                        style="background: none; font-size: 16px; color: #f8b739; width: 90px;"
+                                        name="paid_by" id="paid_by">
+                                        {% for user in group.members.all %}
+                                        <option style="color: #f8b739 ; padding: 10px; text-align: center;"
+                                            value="{{ user.id }}">{{ user.username }}</option>
+                                        {% endfor %}
+                                    </select></a> and split
+
+                                <a class="split"
+                                    style="color: #f8b739 ; padding: 4px; font-size: 16px; text-align: center;"
+                                    data-toggle="modal" data-target="#exampleModalong">
+                                    equally
+                                </a>​.
 
                             </div>
-                        </div>
-                     
-                            <div class="human_summary">Paid by <a class="payer"><select style="background: none; font-size: 16px; color: #f8b739;" name="paid_by" id="paid_by">
-                                {% for user in group.members.all %}
-                                    <option style="color: #f8b739 ; padding: 10px; text-align: center;" value="{{ user.id }}">{{ user.username }}</option>
-                                {% endfor %}
-                            </select></a> and split 
-                            
-                            <a class="split" style="color: #f8b739 ; padding: 4px; font-size: 16px; text-align: center;" data-toggle="modal" data-target="#exampleModalCenter">
-                                equally
-                             </a>​.
-                              
-                            </div>
-                            <div style="display: flex; justify-content: center; font-size: 18p;" class="details">($ <div id="split-amount-per-user"></div> /person)</div>
-                            
-                           
+                            <div style="display: flex; justify-content: center; font-size: 18p;" class="details">($ <div
+                                    id="split-amount-per-user"></div> /person)</div>
+
+
                             {% include 'expense/checkbox.html' %}
-                            
+
                         </section>
-                        
+
                     </div>
-                <div class="actions clearfix">
-                    <ul role="menu" aria-label="Pagination">
-                        <li class="" aria-disabled="false"><a href="#previous" role="menuitem">Back</a></li>
-                        <li aria-hidden="false" aria-disabled="false"><a> <button style="background: none; border: none;">Continue</button></a></li>
-                        
-                    </ul>
-                </div>
+                    <div class="actions clearfix">
+                        <ul role="menu" aria-label="Pagination">
+                            <li class="" aria-disabled="false"><a href="#previous" role="menuitem">Back</a></li>
+                            <li aria-hidden="false" aria-disabled="false"><a> <button type="submit"
+                                        style="background: none; border: none;">Continue</button></a></li>
+
+                        </ul>
+                    </div>
+
+                </form>
+                {%endif%}
             </div>
-        </form>
+        </div>
     </div>
     <!-- Display amount paid by the user -->
 
@@ -89,11 +102,11 @@
         const $splitAmountField = $("#split_amount");
         const $splitWithCheckboxes = $("input[name='split_with']");
         const $splitAmountPerUser = $("#split-amount-per-user");
-        
+
         // Event handlers
         $splitAmountField.on("input", updateSplitAmount);
         $splitWithCheckboxes.on("change", updateSplitAmount);
-        
+
         // Function to update split amount
         function updateSplitAmount() {
             const totalAmount = parseFloat($splitAmountField.val()) || 0;
@@ -102,7 +115,7 @@
             const splitAmount = numberOfParticipants > 0
                 ? totalAmount / numberOfParticipants
                 : 0;
-            
+
             $splitAmountPerUser.text(splitAmount.toFixed(2));
         }
     });
@@ -114,9 +127,9 @@
 
 <script src="{% static 'js/expense/jquery-3.3.1.min.js' %}"></script>
 
-<!-- Template created and distributed by Colorlib --> 
+<!-- Template created and distributed by Colorlib -->
 
- <!-- <!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html>
 <head>
     <title>Add Expense</title>

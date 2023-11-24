@@ -62,7 +62,7 @@ def Signup(request):
             password = form.cleaned_data.get("password1")
 
             # Generate a random OTP
-            otp = random.randint(100000, 999999)
+            otp = random.randint(1000, 9999)
 
             # Create the email content
             htmly = get_template("register/gmail.html")
@@ -139,7 +139,7 @@ def VerifyOTP(request):
             if "signup_password" in request.session:
                 del request.session["signup_password"]
 
-            return redirect("Login")  # Redirect to your home page
+            return redirect("Main")  # Redirect to your home page
 
         else:
             messages.error(request, "Invalid OTP. Please try again.")
