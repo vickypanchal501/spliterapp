@@ -67,7 +67,7 @@
                                 </a>​.
 
                             </div>
-                            <div style="display: flex; justify-content: center; font-size: 18p;" class="details">($ <div
+                            <div style="display: flex; justify-content: center; font-size: 18p;" class="details">( ₹ <div
                                     id="split-amount-per-user"></div> /person)</div>
 
 
@@ -78,9 +78,9 @@
                     </div>
                     <div class="actions clearfix">
                         <ul role="menu" aria-label="Pagination">
-                            <li class="" aria-disabled="false"><a href="#previous" role="menuitem">Back</a></li>
+                            <li class="" aria-disabled="false"><a href="{% url 'group_detail' group_id=group.id %}"="menuitem">Back</a></li>
                             <li aria-hidden="false" aria-disabled="false"><a> <button type="submit"
-                                        style="background: none; border: none;">Continue</button></a></li>
+                                        style="background: none; border: none; font-size: 17px; color: #fff;">Continue</button></a></li>
 
                         </ul>
                     </div>

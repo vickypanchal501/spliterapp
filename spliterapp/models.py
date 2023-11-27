@@ -2,6 +2,8 @@
 from django.db import models
 # from django.contrib.auth.models import User
 from account.models import CustomUser
+from django.db.models import Sum
+
 class Group(models.Model):
     name = models.CharField(max_length=255 )
     creator = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
@@ -27,7 +29,25 @@ class Expense(models.Model):
     def __str__(self):
         return self.description
     
+    @property
+    def owes(self):
+        # Calculate owes and return a dictionary of members and their corresponding owed amounts
+        # For example, if you have a field named 'split_amount' that represents the owed amount,
+        # and 'split_with' is a ManyToManyField representing users involved in the expense,
+        # you could use something like this:
+
+        owes_dict = {}
+        for user in self.split_with.all():
+            if user != self.paid_by:
+                owes_dict[user] = self.split_amount
+
+        return owes_dict
+    
     def save(self, *args, **kwargs):
         # Set the name of the user who paid before saving the expense
         self.paid_by_name = self.paid_by.username
         super().save(*args, **kwargs)
+
+         # Calculate amount lent (or owed) by the user for users not involved
+
+

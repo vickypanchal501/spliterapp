@@ -8,6 +8,10 @@ from django.http import JsonResponse
 from .models import Group
 
 from django.db.models import Sum
+from collections import defaultdict
+
+
+
 def create_group(request):
     user = request.user
     user_groups = Group.objects.filter(members=user)
@@ -19,12 +23,13 @@ def create_group(request):
         group.save()
         return redirect('group_detail', group_id=group.id)
     return render(request, 'group/base.html' ,{'user_groups': user_groups,})
+from decimal import Decimal
 
 def group_detail(request, group_id):
     group = Group.objects.get(id=group_id)
     user = request.user
     user_groups = Group.objects.filter(members=user)
-    # expenses = Expense.objects.filter(group=group)
+
     if request.method == 'POST':
         invited_user_username = request.POST.get('invited_user')
         try:
@@ -33,17 +38,39 @@ def group_detail(request, group_id):
                 group.members.add(invited_user)
             return redirect('group_detail', group_id=group.id)
         except CustomUser.DoesNotExist:
-            # Handle the case where the user doesn't exist
             pass
-    group_expenses = Expense.objects.filter(group=group)  
 
-    context = {'group': group, 
-               'user_groups': user_groups, 
-               'user_id': user ,
-               'group_expenses':group_expenses[::-1] ,
-               
-               }
-    return render(request, 'group/base.html', context )
+    group_expenses = Expense.objects.filter(group=group)
+
+    # Calculate user balances in the group
+    user_balances = {member: Decimal('0.0') for member in group.members.all()}
+
+# ...
+
+# Update user_balances
+    for member in group.members.all():
+        expenses_lent = Expense.objects.filter(group=group, split_with=member)
+        total_lent_amount = expenses_lent.aggregate(Sum('amount_lent_by_user'))['amount_lent_by_user__sum'] or Decimal('0.0')
+    
+        # Retrieve the paid amount from expenses
+        expenses_paid = Expense.objects.filter(group=group, paid_by=member)
+        total_paid_amount = expenses_paid.aggregate(Sum('amount_paid_by_user'))['amount_paid_by_user__sum'] or Decimal('0.0')
+    
+        # Calculate the balance for the user
+        user_balances[member] = total_paid_amount - total_lent_amount
+    
+    
+    context = {
+        'group': group,
+        'user_groups': user_groups,
+        'user_id': user,
+        'group_expenses': group_expenses[::-1],
+        'user_balances': dict(user_balances),
+
+
+    }
+
+    return render(request, 'group/base.html', context)
 
 def add_expense(request, group_id):
     group = Group.objects.get(id=group_id)
@@ -106,3 +133,9 @@ def delete_group(request, group_id):
     group = get_object_or_404(Group, pk=group_id)
     group.delete()
     return JsonResponse({'message': 'Group deleted successfully'})
+
+
+def expense_detail(request, expense_id):
+    expense = get_object_or_404(Expense, id=expense_id)
+
+    return render(request, 'expense/expense_details.html', {'expense': expense})
