@@ -7,7 +7,7 @@ class GroupMember(admin.ModelAdmin):
 admin.site.register(Group,GroupMember)
 # admin.site.register(Group)
 class ExpenseAdmin(admin.ModelAdmin):
-    list_display = ('description', 'group', 'split_amount', 'created_by','paid_by_name','amount_paid_by_user', 'amount_lent_by_user','owes')
+    list_display = ('description', 'group', 'split_amount', 'created_by','paid_by_name','amount_paid_by_user', 'amount_lent_by_user','total_amount_paid_by_activeuser','owes')
     search_fields = ['description']
 
 

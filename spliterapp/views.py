@@ -25,6 +25,7 @@ def create_group(request):
     return render(request, 'group/base.html' ,{'user_groups': user_groups,})
 from decimal import Decimal
 
+
 def group_detail(request, group_id):
     group = Group.objects.get(id=group_id)
     user = request.user
@@ -45,29 +46,32 @@ def group_detail(request, group_id):
     # Calculate user balances in the group
     user_balances = {member: Decimal('0.0') for member in group.members.all()}
 
-# ...
-
-# Update user_balances
+    # Update user_balances
     for member in group.members.all():
         expenses_lent = Expense.objects.filter(group=group, split_with=member)
-        total_lent_amount = expenses_lent.aggregate(Sum('amount_lent_by_user'))['amount_lent_by_user__sum'] or Decimal('0.0')
-    
+        total_lent_amount = expenses_lent.aggregate(Sum('split_amount'))['split_amount__sum'] or Decimal('0.0')
+
         # Retrieve the paid amount from expenses
         expenses_paid = Expense.objects.filter(group=group, paid_by=member)
         total_paid_amount = expenses_paid.aggregate(Sum('amount_paid_by_user'))['amount_paid_by_user__sum'] or Decimal('0.0')
-    
+
         # Calculate the balance for the user
         user_balances[member] = total_paid_amount - total_lent_amount
-    
-    
+
+    # # Find the maximum get-back amount to adjust owes amounts
+    # max_get_back = max(user_balances.values())
+
+    # # Adjust user_balances for owes amounts
+    # for member, balance in user_balances.items():
+    #     if balance < 0:
+    #         user_balances[member] += max_get_back
+
     context = {
         'group': group,
         'user_groups': user_groups,
         'user_id': user,
         'group_expenses': group_expenses[::-1],
         'user_balances': dict(user_balances),
-
-
     }
 
     return render(request, 'group/base.html', context)
@@ -139,3 +143,34 @@ def expense_detail(request, expense_id):
     expense = get_object_or_404(Expense, id=expense_id)
 
     return render(request, 'expense/expense_details.html', {'expense': expense})
+
+
+def user_detail(request, group_id, user_id):
+    group = get_object_or_404(Group, id=group_id)
+    user = get_object_or_404(CustomUser, id=user_id)
+
+    # Calculate user balances in the group
+    user_balances = {member: Decimal('0.0') for member in group.members.all()}
+
+    # Update user_balances
+    for member in group.members.all():
+        expenses_lent = Expense.objects.filter(group=group, split_with=member)
+        total_lent_amount = expenses_lent.aggregate(Sum('split_amount'))['split_amount__sum'] or Decimal('0.0')
+        print("expenses_lent",expenses_lent)
+        print("total_lent_amount",total_lent_amount)
+        # Retrieve the paid amount from expenses
+        expenses_paid = Expense.objects.filter(group=group, paid_by=member)
+        total_paid_amount = expenses_paid.aggregate(Sum('amount_paid_by_user'))['amount_paid_by_user__sum'] or Decimal('0.0')
+        print("expenses_paid",expenses_paid)
+        print("total_paid_amount",total_paid_amount)
+        # Calculate the balance for the user
+        user_balances[member] = total_paid_amount - total_lent_amount
+        print(user_balances[member])
+
+    context = {
+        'group': group,
+        'user': user,
+        'user_balances': user_balances,
+    }
+
+    return render(request, 'group/group_summary.html', context)

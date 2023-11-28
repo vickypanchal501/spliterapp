@@ -1,0 +1,13 @@
+<h1>{{ user.username }} Settled Amounts</h1>
+
+<ul>
+  {% for member, settled_amount in settled_amounts.items %}
+    <li>
+      {% if settled_amount > 0 %}
+        {{ user.username }} received ${{ settled_amount }} from {{ member.username }}
+      {% elif settled_amount < 0 %}
+        {{ user.username }} paid ${{ abs(settled_amount) }} to {{ member.username }}
+      {% endif %}
+    </li>
+  {% endfor %}
+</ul>
