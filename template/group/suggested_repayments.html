@@ -1,0 +1,20 @@
+<h2>SUGGESTED REPAYMENTS FOR "{{ group.name }}"</h2>
+  <h3>{{ user.username }}</h3>
+
+  {% if suggested_repayments.owes %}
+    <h4>Owes:</h4>
+    <ul>
+      {% for other_user, amount in suggested_repayments.owes.items %}
+        <li>{{ other_user.username }} owes ${{ amount }} to {{ user.username }}</li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+
+  {% if suggested_repayments.gets_back %}
+    <h4>Gets Back:</h4>
+    <ul>
+      {% for other_user, amount in suggested_repayments.gets_back.items %}
+        <li>{{ user.username }} gets back ${{ amount }} from {{ other_user.username }}</li>
+      {% endfor %}
+    </ul>
+  {% endif %}
