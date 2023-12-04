@@ -1,6 +1,27 @@
 {% include 'group/main_header.html' %}
 {% include 'group/main_navbar.html' %}
 
+<h2>Detailed Repayments</h2>
+<p>Repayments for {{ user.username }} in {{ group.name }}</p>
+
+<h3>Owes:</h3>
+<ul>
+  {% for repayment in detailed_repayments %}
+    {% if repayment.from_user == user %}
+      <li>{{ repayment.from_user.username }} owes ${{ repayment.amount }} to {{ repayment.to_user.username }}</li>
+    {% endif %}
+  {% endfor %}
+</ul>
+
+<h3>Owed by:</h3>
+<ul>
+  {% for repayment in detailed_repayments %}
+    {% if repayment.to_user == user %}
+      <li>{{ repayment.from_user.username }} owes ${{ repayment.amount }} to {{ repayment.to_user.username }}</li>
+    {% endif %}
+  {% endfor %}
+</ul>
+
 
 {% include 'expense/expense.html' %}
 {% include 'group/main_footer.html' %}
