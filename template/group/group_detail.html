@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -245,7 +246,7 @@
             <!-- Inside your HTML file, inside the <tbody> tag -->
             <tbody>
                 <h2>{{ group.name }}</h2>
-                {% for member in user_balances %}
+                {% for member , balance in user_balances.items %}
                 <tr class="candidates-list">
                     <td class="title">
                         <div class="thumb">
@@ -265,13 +266,13 @@
                                 <div class="candidate-list-option">
                                     <ul class="list-group">
                                         <li style="margin: 1px;"><i class="fas fa-light fa-envelope pr-2"></i>  {{ member.email }}</li>
-                                        <!-- {% if balance > 0 %}
+                                        {% if balance < 0 %}
                                             <li style="color: #5bc5a7; font-size: 15px;"><i class="fas fa-map-marker-alt pr-1"></i> Get Backs: ${{ balance }}</li>
-                                        {% elif balance < 0 %}
+                                        {% elif balance > 0 %}
                                             <li style="color: #ff652f; font-size: 15px;" ><i class="fas fa-map-marker-alt pr-1"></i> Owes Amount: ${{ balance }}</li>
                                         {% else %}
-                                            <li><i class="fas fa-map-marker-alt pr-1"></i> User Balance: ${{ balance }}</li>
-                                        {% endif %} -->
+                                            <li><i class="fas fa-map-marker-alt pr-1"></i> User Balance: ${{ balance  }}</li>
+                                        {% endif %}
                                     </ul>
                                 </div>
                             </div>

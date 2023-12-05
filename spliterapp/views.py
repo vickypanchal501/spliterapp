@@ -40,17 +40,42 @@ def group_detail(request, group_id):
             pass
 
     group_expenses = Expense.objects.filter(group=group)
-    user_balances = group.members.all()
+    users = group.members.all()
+    # user_balances = group.members.all()
     # user_balances = calculate_user_balances(group)
+    user_balances = {member: Decimal('0.0') for member in group.members.all()}
+    for user in users:
+        dict1 = {}
+        # Query the database for repayment details
+        repayments = RepaymentDetail.objects.filter(group=group)
+  
+        for repayment in repayments:
+            payer = repayment.payer
+            payee = repayment.payee
+            amount = repayment.amount
 
-
-
+            if payer == user:
+                if payee not in dict1:
+                    dict1[payee] = amount
+                else:
+                    dict1[payee] += amount
+                # transactions_list.append(f"{payee} lent {payer} {amount}")
+            elif payee == user:
+                if payer not in dict1:
+                    dict1[payer] = -amount     
+                else:
+                    dict1[payer] += - amount 
+        # print(dict1)
+        for users, values in dict1.items():
+            user_balances[users] += values
+    # for user, val in user_balances.items():
+    #     print("user",user,":- ", val)
     context = {
         'group': group,
         'user_groups': user_groups,
         'user_id': request.user,
         'group_expenses': group_expenses[::-1],
-        'user_balances': user_balances,
+        'user_balances': dict(user_balances),
         # 'user_owe_details': user_owe_details,
     }
 

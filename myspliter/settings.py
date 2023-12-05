@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'spliterapp',
     'crispy_forms',
     'django_otp',
+    'django_filters'
   
     
     
