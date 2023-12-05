@@ -1,0 +1,18 @@
+  <h2>DETAILED REPAYMENTS FOR "{{ group.name }}"</h2>
+  <h3>{{ user.username }}</h3>
+
+  {% if detailed_repayments %}
+    <ul>
+      {% for repayment in detailed_repayments %}
+        <li>
+          {% if repayment.from_user == user %}
+            {{ repayment.from_user.username }} gets back ${{ repayment.amount }} from {{ repayment.to_user.username }}
+          {% else %}
+            {{ repayment.from_user.username }} owes ${{ repayment.amount }} to {{ repayment.to_user.username }}
+          {% endif %}
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>No detailed repayments found.</p>
+  {% endif %}

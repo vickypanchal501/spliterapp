@@ -16,7 +16,14 @@ urlpatterns = [
     path('add_expense/<int:group_id>/', views.add_expense, name='add_expense'),
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     
+=======
+    path('delete_group/<int:group_id>/', views.delete_group, name='delete_group'),
+    path('expense_detail/<int:expense_id>/', views.expense_detail, name='expense_detail'),
+    #  path('group/<int:group_id>/user/<int:user_id>/suggested-repayments/', views.suggested_repayments, name='suggested_repayments'),
+    path('group/<int:group_id>/user/<int:user_id>/detailed-repayments/', views.detailed_repayments, name='detailed_repayments'),
+>>>>>>> vicky
 
 ]
 =======

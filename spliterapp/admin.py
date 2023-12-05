@@ -1,9 +1,9 @@
 
 from django.contrib import admin
-from .models import Group, Expense
+from .models import Group, Expense 
 
 class GroupMember(admin.ModelAdmin):
-    list_display = ["id","name","creator" ]
+    list_display = ["id","name","creator", ]
 admin.site.register(Group,GroupMember)
 # admin.site.register(Group)
 <<<<<<< HEAD
@@ -14,10 +14,11 @@ admin.site.register(Group,GroupMember)
 =======
 >>>>>>> vikcy
 class ExpenseAdmin(admin.ModelAdmin):
-    list_display = ('description', 'group', 'split_amount', 'created_by','split_amount_per_user')
+    list_display = ('description', 'group', 'split_amount', 'created_by','paid_by_name','amount_paid_by_user', 'amount_lent_by_user','total_amount_paid_by_activeuser','owes',)
     search_fields = ['description']
 
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 admin.site.register(Expense, ExpenseAdmin)
@@ -33,3 +34,6 @@ admin.site.register(Expense,ExpenseDetail)
 =======
 admin.site.register(Expense, ExpenseAdmin)
 >>>>>>> vikcy
+=======
+admin.site.register(Expense, ExpenseAdmin)
+>>>>>>> vicky
