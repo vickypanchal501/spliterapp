@@ -16,7 +16,7 @@ class TransactionTracker:
 
         self.groups[group][payer][payee] += amount
 
-        
+         
 
 
     def split_and_record_transaction(self, payer, group_members, amount):
@@ -26,15 +26,38 @@ class TransactionTracker:
                 self.record_transaction(payer, payee, split_amount)
 
     def get_transactions(self, group, person):
+        dict1 = {}
         transactions_list = []
-        for payer, payees in self.groups.get(group, {}).items():
-            for payee, amount in payees.items():
-                if payer == person:
-                    transactions_list.append(f"{payee} lent {payer} {amount}")
-                elif payee == person:
-                    transactions_list.append(f"{payer} owes {payee} {-amount}")
+
+        # Query the database for repayment details
+        repayments = RepaymentDetail.objects.filter(group=group)
+  
+        for repayment in repayments:
+            payer = repayment.payer.username
+            payee = repayment.payee.username
+            amount = repayment.amount
+
+            if payer == person:
+                if payee not in dict1:
+                    dict1[payee] = [amount]
+                else:
+                    dict1[payee].append(amount)
+                # transactions_list.append(f"{payee} lent {payer} {amount}")
+            elif payee == person:
+                if payer not in dict1:
+                    dict1[payer] = [-amount]     
+                else:
+                    dict1[payer].append(-amount)
+        print(dict1)
+        for user, amounts in dict1.items():
+            total_amount = sum(amounts)
+            if total_amount > 0:
+                transactions_list.append({"user": user, "amount": total_amount, "color": "green" ,"person":person})
+            else:
+                transactions_list.append({"user": user, "amount": total_amount, "color": "red" , "person":person})
 
         return transactions_list
+     
 
 
 

@@ -110,7 +110,7 @@ def add_expense(request, group_id):
             for payee in expense.split_with.all():
                 if payer != payee.username: 
                     transaction_tracker.record_transaction(group,payer, payee.username, amount_per_user, )
-                    RepaymentDetail.record_repayment(payer, payee, group, amount_per_user)
+                    RepaymentDetail.record_repayment(payer, payee.username, group, amount_per_user)
 
 
             print("expense.total_amount_paid_by_activeuser:", expense.total_amount_paid_by_activeuser)
@@ -149,8 +149,10 @@ def detailed_repayments(request, group_id, user_id):
     group = get_object_or_404(Group, id=group_id)
     user = get_object_or_404(CustomUser, id=user_id)
     # expense = get_object_or_404(Expense, id=expense_id)
+    print("group",group)
     transactions = transaction_tracker.get_transactions(group,user.username, )
-
+    for transaction in transactions:
+        transaction['abs_amount'] = abs(transaction['amount'])
     context = {
         'user': user,
         'group': group,

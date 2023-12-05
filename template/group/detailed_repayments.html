@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,69 +13,43 @@
   .owed-amount {
     color: red;
   }
+
+  .red-text {
+    color: red;
+}
+
+.green-text {
+    color: green;
+}
   </style>
 </head>
 <body>
+  <h1>
+    Group Name :- {{group}}
+  </h1>
+  <div> Transections Person Useername {{user.username}}</div>
 
-<h2>User Balances</h2>
-<ul>
-  {% for member in transactions %}
-    <li>{{ member }}</li>
-  {% endfor %}
-</ul>
+  {% for transaction in transactions %}
+  {% if transaction.amount > 0  %}
+  {{ transaction.person }} will recieve 
+  <span class="{% if transaction.color == 'red' %}red-text{% else %}green-text{% endif %}">
+    &#8377;{{ transaction.abs_amount }} 
+  </span>
+  from {{ transaction.user }}
+  <br>
+  {% else %}
+  {{ transaction.person }} will pay 
+  <span class="{% if transaction.color == 'red' %}red-text{% else %}green-text{% endif %}">
+    &#8377;{{ transaction.abs_amount}} 
+  </span>
+  to {{ transaction.user }}
+  <br>
 
-</body>
-</html>
-
-
-
-
-
-<h1>this is not working</h1>
-
-
-<h2>Detailed Repayments for {{ user.username }}</h2>
-
-{% for repayment in detailed_repayments %}
-  {% if user == repayment.from_user and repayment.from_user != repayment.to_user %}
-    <p>{{ user.username }} owes ${{ repayment.amount|floatformat:"2" }} to {{ repayment.to_user.username }}</p>
   {% endif %}
 {% endfor %}
 
 
 
+</body>
+</html>
 
-
-
-<h2>Detailed Repayments</h2>
-  <p>Repayments for {{ user.username }} in {{ group.name }}</p>
-
-  <h3>Owes:</h3>
-  <ul>
-    {% for repayment in detailed_repayments %}
-      {% if repayment.from_user == user %}
-        <li>
-          {{ repayment.from_user.username }} 
-          <span class="owes-amount {% if repayment.amount > 0 %}green{% else %}red{% endif %}">
-            owes ${{ repayment.amount }} 
-          </span> 
-          to {{ repayment.to_user.username }}
-        </li>
-      {% endif %}
-    {% endfor %}
-  </ul>
-
-  <h3>Owed by:</h3>
-  <ul>
-    {% for repayment in detailed_repayments %}
-      {% if repayment.to_user == user %}
-        <li>
-          {{ repayment.from_user.username }} 
-          <span class="owed-amount {% if repayment.amount > 0 %}green{% else %}red{% endif %}">
-            owes ${{ repayment.amount }} 
-          </span> 
-          to {{ repayment.to_user.username }}
-        </li>
-      {% endif %}
-    {% endfor %}
-  </ul>
