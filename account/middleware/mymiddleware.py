@@ -8,10 +8,10 @@ class RequireLoginMiddleware:
     def __call__(self, request):
         if request.user.is_authenticated:
             # Redirect authenticated users away from login and signup pages
-            if request.path in [reverse('Login'), reverse('Signup')]:
+            if request.path in [reverse('Login'), reverse('Signup') ,reverse('VerifyOTP')]:
                 return redirect('Main')  # Change 'home' to the desired URL
 
-        elif  not request.user.is_staff and request.path not in [reverse('Login'), reverse('Signup'), reverse('index'), ]:
+        elif  not request.user.is_staff and request.path not in [reverse('Login'), reverse('Signup'), reverse('index'), reverse('VerifyOTP')]:
             return redirect('index')
         response = self.get_response(request)
         return response

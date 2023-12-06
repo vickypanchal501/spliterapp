@@ -99,7 +99,6 @@ def Signup(request):
 
 
 
-@login_required
 def VerifyOTP(request):
     username = request.session.get("signup_username")
     email = request.session.get("signup_email")

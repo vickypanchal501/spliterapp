@@ -255,10 +255,11 @@
                             <td class="text-truncate">
                                 <ul class="list-unstyled order-list m-b-0">
                                     {% for expense_id in expense.split_with.all %}
-                                        
-                                    <li class="team-member team-member-sm"><img class="rounded-circle"
-                                            src="https://bootdey.com/img/Content/avatar/avatar{{expense_id.id}}.png" alt="user"
+                                   
+                                        <li class="team-member team-member-sm"><img class="rounded-circle"
+                                            src="https://api.multiavatar.com/{{expense_id.username}}.svg" alt="user"
                                             data-toggle="tooltip" title data-original-title="Wildan Ahdian"></li>
+                                      
                                     {% endfor %}        
                                     <!-- <li class="avatar avatar-sm"><span class="badge badge-primary">+4</span>
                                     </li> -->
