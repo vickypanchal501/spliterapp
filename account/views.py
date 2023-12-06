@@ -11,14 +11,14 @@ from django.template import Context
 from .forms import SignUpForm, OTPVerificationForm
 from .models import CustomUser
 from spliterapp.models import Group
-
+from django.contrib.auth.decorators import login_required
 
 from django.contrib.auth.hashers import make_password
 
 def index(request):
     return render(request, "index.html")
 
-
+@login_required
 def Main(
     request,
 ):
@@ -99,7 +99,7 @@ def Signup(request):
 
 
 
-
+@login_required
 def VerifyOTP(request):
     username = request.session.get("signup_username")
     email = request.session.get("signup_email")

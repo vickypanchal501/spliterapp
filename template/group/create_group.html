@@ -9,7 +9,14 @@
 </head>
 
 <body>
+    {% if messages %}
     
+{% for message in messages %}
+<script>
+    alert('{{ message }}')
+</script>
+{% endfor %}
+{% endif %} 
   
     <h1>Create a Group</h1>
     

@@ -202,12 +202,7 @@
 </head>
 
 <body>
-    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css"
-    integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" /> -->
 
-    <!-- <div class="container"> -->
-    <!-- <div class="row">  -->
-    <!-- <div class="col-12 col-sm-12 col-md-12"> -->
     <div class="card ">
         <div class="card-header mr-auto justify-content-between navbar-light bg-light"
             style="width: 97%;margin: 10px 10px 5px 10px;">
@@ -259,17 +254,14 @@
                             <td>{{expense.date}}</td>
                             <td class="text-truncate">
                                 <ul class="list-unstyled order-list m-b-0">
+                                    {% for expense_id in expense.split_with.all %}
+                                        
                                     <li class="team-member team-member-sm"><img class="rounded-circle"
-                                            src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="user"
+                                            src="https://bootdey.com/img/Content/avatar/avatar{{expense_id.id}}.png" alt="user"
                                             data-toggle="tooltip" title data-original-title="Wildan Ahdian"></li>
-                                    <li class="team-member team-member-sm"><img class="rounded-circle"
-                                            src="https://bootdey.com/img/Content/avatar/avatar2.png" alt="user"
-                                            data-toggle="tooltip" title data-original-title="John Deo"></li>
-                                    <li class="team-member team-member-sm"><img class="rounded-circle"
-                                            src="https://bootdey.com/img/Content/avatar/avatar3.png" alt="user"
-                                            data-toggle="tooltip" title data-original-title="Sarah Smith"></li>
-                                    <li class="avatar avatar-sm"><span class="badge badge-primary">+4</span>
-                                    </li>
+                                    {% endfor %}        
+                                    <!-- <li class="avatar avatar-sm"><span class="badge badge-primary">+4</span>
+                                    </li> -->
                                 </ul>
                             </td>
                             <td>

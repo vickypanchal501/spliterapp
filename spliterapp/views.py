@@ -9,6 +9,7 @@ from collections import defaultdict
 from decimal import Decimal
 from .transaction_tracker import TransactionTracker
 
+from django.contrib import messages
 transaction_tracker = TransactionTracker()
 
 def create_group(request):
@@ -20,6 +21,7 @@ def create_group(request):
         creator = request.user
         group = Group.objects.create(name=group_name, creator=creator)
         group.members.add(creator)
+        
         group.save()
         return redirect('group_detail', group_id=group.id)
 
@@ -28,23 +30,34 @@ def create_group(request):
 def group_detail(request, group_id):
     group = get_object_or_404(Group, id=group_id)
     user_groups = Group.objects.filter(members=request.user)
-
     if request.method == 'POST':
         invited_user_username = request.POST.get('invited_user')
-        try:
-            invited_user = CustomUser.objects.get(username=invited_user_username)
-            if invited_user not in group.members.all():
-                group.members.add(invited_user)
-            return redirect('group_detail', group_id=group.id)
-        except CustomUser.DoesNotExist:
-            pass
+        if invited_user_username:
+            try:
+                invited_user = CustomUser.objects.get(username=invited_user_username)
+                if invited_user not in group.members.all():
+                    group.members.add(invited_user)
+                    messages.success(request, f"{invited_user.username} added to the group.")
+                else:
+                    messages.error(request, f"User with username {invited_user_username} not found.")
+
+            except CustomUser.DoesNotExist:
+                # invited_user_username =  None
+                messages.error(request, f"User with username {invited_user_username} not found.")
+ 
+        group.save()
 
     group_expenses = Expense.objects.filter(group=group)
-    users = group.members.all()
+
+
+    group_members = group.members.all()
+    user = request.user
+    if user not in group_members:
+        return redirect('Main')
     # user_balances = group.members.all()
     # user_balances = calculate_user_balances(group)
     user_balances = {member: Decimal('0.0') for member in group.members.all()}
-    for user in users:
+    for user in group_members:
         dict1 = {}
         # Query the database for repayment details
         repayments = RepaymentDetail.objects.filter(group=group)
@@ -59,7 +72,6 @@ def group_detail(request, group_id):
                     dict1[payee] = amount
                 else:
                     dict1[payee] += amount
-                # transactions_list.append(f"{payee} lent {payer} {amount}")
             elif payee == user:
                 if payer not in dict1:
                     dict1[payer] = -amount     
@@ -68,8 +80,6 @@ def group_detail(request, group_id):
         # print(dict1)
         for users, values in dict1.items():
             user_balances[users] += values
-    # for user, val in user_balances.items():
-    #     print("user",user,":- ", val)
     context = {
         'group': group,
         'user_groups': user_groups,
@@ -82,7 +92,10 @@ def group_detail(request, group_id):
     return render(request, 'group/base.html', context)
 def add_expense(request, group_id):
     group = Group.objects.get(id=group_id)
-    split_amount = 0
+    group_members = group.members.all()
+    user = request.user
+    if user not in group_members:
+        return redirect('Main')
 
     if request.method == 'POST':
         form = ExpenseForm(group, request.POST)
@@ -91,37 +104,19 @@ def add_expense(request, group_id):
             expense = form.save(commit=False)
             expense.created_by = request.user
             expense.group = group
-
-            # Get split amount from the form
             amount = form.cleaned_data['split_amount']
             expense.amount = amount  # Corrected this line
-            # Save the expense without calculating split amount for now
             expense.save()
-
-            # Add the creator to the split_with users
             split_with_users = list(form.cleaned_data['split_with'])
-            # split_with_users.remove(request.user)
             expense.split_with.set(split_with_users)
-
-            # Calculate the amount for each user
             amount_per_user = amount / len(expense.split_with.all())
             expense.split_amount = amount_per_user
             expense.save()
-
-            # Set lent amount based on whether the current user is a member of the group
             is_member = request.user in expense.split_with.all()
-
-            # Calculate the total number of members in the expense group
             total_members = len(expense.split_with.all())
-
-            # Calculate the amount per user
             amount_per_user = expense.amount / total_members
-
-            # Calculate amount lent (or owed) by the user
             amount_lent_by_user = amount_per_user * (total_members - 1)
             expense.amount_lent_by_user = amount_per_user if is_member else 0  # Adjusted this line
-
-            # Calculate amount paid by the user
             expense.amount_paid_by_user = amount if is_member else 0
             expense.save()
 
@@ -129,7 +124,6 @@ def add_expense(request, group_id):
                 expense.total_amount_paid_by_activeuser = amount
             else:
                 expense.total_amount_paid_by_activeuser = 0
-
             expense.save()
             payer = expense.paid_by.username
             for payee in expense.split_with.all():
@@ -137,14 +131,6 @@ def add_expense(request, group_id):
                     transaction_tracker.record_transaction(group,payer, payee.username, amount_per_user, )
                     RepaymentDetail.record_repayment(payer, payee.username, group, amount_per_user)
 
-
-            print("expense.total_amount_paid_by_activeuser:", expense.total_amount_paid_by_activeuser)
-            print("expense.amount_paid_by_user:", expense.amount_paid_by_user)
-            print("expense.amount_lent_by_user:", expense.amount_lent_by_user)
-            print("amount_per_user:", amount_per_user)
-            print("split_amount:", expense.split_amount)
-            print("expense.amount:", expense.amount)
-            # Redirect to a different URL after successful form submission
             return redirect('group_detail', group_id=group.id)
 
     else:
@@ -173,7 +159,10 @@ def expense_detail(request, expense_id):
 def detailed_repayments(request, group_id, user_id):
     group = get_object_or_404(Group, id=group_id)
     user = get_object_or_404(CustomUser, id=user_id)
-    # expense = get_object_or_404(Expense, id=expense_id)
+    group_members = group.members.all()
+    users = request.user
+    if users not in group_members:
+        return redirect('Main')
     print("group",group)
     transactions = transaction_tracker.get_transactions(group,user.username, )
     for transaction in transactions:

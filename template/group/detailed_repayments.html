@@ -76,7 +76,7 @@
                       </span>
                       from {{ transaction.user }}</td>
                   
-                    <td>Setlelup</td>
+                    <td style="justify-content: end; display: flex; "><a class="" style="background-color: #f8b739; color: white; text-align: center; padding: 4px 11px; border-radius: 4px; font-size: 16px;" href="#">Settle Up</a></td>
                     {% else %}
                     <td colspan="2">{{ transaction.person }} will pay
                       <span class="{% if transaction.color == 'red' %}red-text{% else %}green-text{% endif %}">
@@ -84,7 +84,7 @@
                       </span>
                       to {{ transaction.user }}</td>
                   
-                    <td>Setlelup</td>
+                    <td style="justify-content: end;display: flex;" ><a class="" style="background-color: #f8b739; color: white; text-align: center; padding: 4px 11px; border-radius: 4px; font-size: 16px;" href="#">Settle Up</a></td>
 
                     {% endif %}
                   </tr>
