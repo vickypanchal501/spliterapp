@@ -115,6 +115,39 @@ def add_expense(request, group_id):
             is_member = request.user in expense.split_with.all()
             total_members = len(expense.split_with.all())
             amount_per_user = expense.amount / total_members
+            split_type = request.POST.get('split_type')
+            print("Split Type in Django View:", split_type)
+
+           
+               
+                
+            if split_type == 'percentage':
+                group_members = {user.username: float(request.POST.get(f"contributions[{user.username}]")) for user in group.members.all()}
+                total_percentage = sum(group_members.values())
+                
+                print("sum(group_members.values())",sum(group_members.values()))
+                payer = expense.paid_by.username
+                for payee, percentage in group_members.items():
+                    if payer != payee:
+                        print("payee:-",payee)
+                        print("payer:-",payer)
+                        split_amount = float(amount) * (percentage / float(total_percentage))
+                        transaction_tracker.record_transaction(group, payer, payee, split_amount)
+                        RepaymentDetail.record_repayment(payer, payee, group, split_amount)
+            # Handle percentage split logic
+                print("group-members:- ",group_members)
+                # transaction_tracker.split_and_record_transaction(group,expense.paid_by.username, group_members, amount)
+                # print(group_members)
+                print("Handling percentage split logic...")
+            else:
+                payer = expense.paid_by.username
+                for payee in expense.split_with.all():
+                    if payer != payee.username: 
+                        transaction_tracker.record_transaction(group,payer, payee.username, amount_per_user, )
+                        RepaymentDetail.record_repayment(payer, payee.username, group, amount_per_user)
+                print("Handling equal split logic...")
+            # Handle equal split logic
+
             amount_lent_by_user = amount_per_user * (total_members - 1)
             expense.amount_lent_by_user = amount_per_user if is_member else 0  # Adjusted this line
             expense.amount_paid_by_user = amount if is_member else 0
@@ -125,11 +158,7 @@ def add_expense(request, group_id):
             else:
                 expense.total_amount_paid_by_activeuser = 0
             expense.save()
-            payer = expense.paid_by.username
-            for payee in expense.split_with.all():
-                if payer != payee.username: 
-                    transaction_tracker.record_transaction(group,payer, payee.username, amount_per_user, )
-                    RepaymentDetail.record_repayment(payer, payee.username, group, amount_per_user)
+            
 
             return redirect('group_detail', group_id=group.id)
 
@@ -139,7 +168,7 @@ def add_expense(request, group_id):
     context = {
         'group': group,
         'form': form,
-        'split_amount': split_amount,
+        # 'split_amount': split_amount,
     }
     return render(request, 'expense/expense.html', context)     
 

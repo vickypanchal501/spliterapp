@@ -4,7 +4,7 @@
         <div class="p-4 pt-5">
             <a href="" class="img logo rounded-circle mb-5"
                 style="background-image: url(https://api.multiavatar.com/{{user.username}}.svg);"></a>
-            <h1 class="" style="color: white; text-align: center;">{{user.username}}</h1>
+            <h1 class="" style="color: white; text-align: center; font-size: x-large;">{{user.username}}</h1>
             <ul class="list-unstyled components mb-5">
                 <li class="active">
                     <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Home</a>
@@ -114,7 +114,7 @@
 
                     <ul class="nav navbar-nav ml-auto">
                         <li class="nav-item active">
-                            <a class="nav-link" href="#">Home</a>
+                            <a class="nav-link" href="{% url 'Main' %}">Home</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#">About</a>
