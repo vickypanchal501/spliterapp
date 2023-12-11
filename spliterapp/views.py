@@ -124,7 +124,6 @@ def add_expense(request, group_id):
             if split_type == 'percentage':
                 group_members = {user.username: float(request.POST.get(f"contributions[{user.username}]")) for user in group.members.all()}
                 total_percentage = sum(group_members.values())
-                
                 print("sum(group_members.values())",sum(group_members.values()))
                 payer = expense.paid_by.username
                 for payee, percentage in group_members.items():

@@ -146,7 +146,7 @@
 
           </div>
 
-          <input type="hidden" name="split_type" id="split_type_input">
+          <input type="hidden" name="split_type" id="split_type" value="equal">
 
 
 
@@ -191,11 +191,13 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <script>
-  function setSplitType(splitType) {
-    console.log("Selected Split Type:", splitType);
-    // Set the selected split type in the hidden input
-    $("#split_type_input").val(splitType);
-  }
+ $(".nav-link").on("click", function() {
+    if ($(this).attr("id") === "nav-profile-tab") {
+        $("#split_type").val("percentage");
+    } else {
+        $("#split_type").val("equal");
+    }
+});
   function updateTotalPercentage() {
             const totalPercentageField = $("#total-percentage");
             const totalPercentage = Array.from($("input[id^='percentage']"))
