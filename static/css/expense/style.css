@@ -17,10 +17,14 @@
 
 body {
   font-family: "Poppins-Regular";
-  font-size: 13px;
+  /* font-size: 13px; */
   color: #808080;
   margin: 0;
   font-weight: 400; }
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> vikcy
 .human_summary{
   justify-content: center;
   display: flex;
@@ -48,6 +52,12 @@ body {
   overflow: hidden;
   white-space: nowrap;
 }
+<<<<<<< HEAD
+=======
+
+>>>>>>> vikas
+=======
+>>>>>>> vikcy
 :focus {
   outline: none; }
 
@@ -73,7 +83,14 @@ a {
 textarea {
   resize: none; }
 
+<<<<<<< HEAD
+<<<<<<< HEAD
  
+=======
+>>>>>>> vikas
+=======
+ 
+>>>>>>> vikcy
 select {
   -moz-appearance: none;
   -webkit-appearance: none;
@@ -104,10 +121,29 @@ body {
 #wizard {
   position: relative;
   background: #fff;
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> vikcy
   /* height: 554px; */
   width: 43%;
   /* padding: 71px 93px 0; */
   padding: 50px;
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+  /* height: 554px; */
+  width: 738px;
+  /* padding: 71px 93px 0; */
+  padding: 50px;
+=======
+  height: 554px;
+  width: 738px;
+  padding: 71px 93px 0;
+>>>>>>> parent of dfdcf37 (this is commit today add expense in admin07/11/2023)
+>>>>>>> vikas
+=======
+>>>>>>> vikcy
   border-radius: 10px;
   box-shadow: 0px 2px 7px 0px rgba(0, 0, 0, 0.1);
   -webkit-box-shadow: 0px 2px 7px 0px rgba(0, 0, 0, 0.1);
@@ -183,17 +219,33 @@ body {
     left: 0px;
     width: 10px;
     height: 10px;
+<<<<<<< HEAD
+<<<<<<< HEAD
     border: 2px solid #f8b739;
+=======
+    border: 2px solid #f6c2ec;
+>>>>>>> vikas
+=======
+    border: 2px solid #f8b739;
+>>>>>>> vikcy
     border-radius: 50%;
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box; }
   .form-holder.active:before {
+<<<<<<< HEAD
+<<<<<<< HEAD
     background: #f8b739; }
+=======
+    background: #f6c2ec; }
+>>>>>>> vikas
+=======
+    background: #f8b739; }
+>>>>>>> vikcy
 
 .form-control {
   height: 46px;
-  border: none;
+  /* border: none; */
   background: #f7f7f7;
   width: 100%;
   padding: 0 25px;
@@ -258,8 +310,17 @@ body {
   height: 177px; }
 
 .actions ul {
+<<<<<<< HEAD
+<<<<<<< HEAD
   display: flex;
 justify-content: end; }
+=======
+  display: flex; }
+>>>>>>> vikas
+=======
+  display: flex;
+justify-content: end; }
+>>>>>>> vikcy
   .actions ul.actions-next {
     justify-content: space-between; }
 .actions li a {
@@ -269,7 +330,15 @@ justify-content: end; }
   height: 46px;
   width: 146px;
   align-items: center;
+<<<<<<< HEAD
+<<<<<<< HEAD
   background: #f8b739;
+=======
+  background: #aac1f0;
+>>>>>>> vikas
+=======
+  background: #f8b739;
+>>>>>>> vikcy
   cursor: pointer;
   position: relative;
   padding-left: 33px;
@@ -285,12 +354,27 @@ justify-content: end; }
   .actions li a:before {
     content: '\f2ee';
     position: absolute;
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> vikcy
     top: 9px;
     right: 26px;
     font-family: Material-Design-Iconic-Font;
     -webkit-transform: translateZ(0);
     transform: translateZ(0);
     font-size: 18px; }
+<<<<<<< HEAD
+=======
+    top: 17px;
+    right: 32px;
+    font-family: Material-Design-Iconic-Font;
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
+    font-size: 13px; }
+>>>>>>> vikas
+=======
+>>>>>>> vikcy
   .actions li a:hover {
     background: #98add6; }
     .actions li a:hover:before {
@@ -306,9 +390,19 @@ justify-content: end; }
   display: none; }
 .actions li:first-child a {
   background: #f6c2ec;
+<<<<<<< HEAD
+<<<<<<< HEAD
   padding-left: 65px; 
   margin-right: 10px;
 }
+=======
+  padding-left: 65px; }
+>>>>>>> vikas
+=======
+  padding-left: 65px; 
+  margin-right: 10px;
+}
+>>>>>>> vikcy
   .actions li:first-child a:before {
     content: '\f2ea';
     left: 48px; }
@@ -400,8 +494,17 @@ justify-content: end; }
 
   .actions ul {
     flex-direction: column;
+<<<<<<< HEAD
+<<<<<<< HEAD
     align-items: flex-end; 
   }
+=======
+    align-items: flex-end; }
+>>>>>>> vikas
+=======
+    align-items: flex-end; 
+  }
+>>>>>>> vikcy
 
   .steps {
     display: none; } }

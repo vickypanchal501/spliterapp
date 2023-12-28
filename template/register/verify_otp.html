@@ -10,6 +10,8 @@
         integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <title>Document</title>
     <!-- Font Awesome -->
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet" />
@@ -20,13 +22,14 @@
 
 <body>
     {% if messages %}
-    {% for message in messages %}
-    <script>
-        "{{ message }}";
-    </script>
-
-    {% endfor %}
-    {% endif %}
+    
+        {% for message in messages %}
+        <script>
+            alert('{{ message }}')
+        </script>
+        {% endfor %}
+  
+{% endif %}
     <section class="vh-100" style="background-color: #eee;">
         <div class="container h-100">
             <div class="row d-flex justify-content-center align-items-center h-100">
@@ -40,9 +43,10 @@
                                         class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Please enter the one time
                                         password
                                         to verify your account
-                                    <div style="display: flex;justify-content: center;"> <span>A code has been sent to  <span style="color: red">{{username}}</span> </span> </div>
+                                    <div style="display: flex;justify-content: center;"> <span>A code has been sent to
+                                            <span style="color: red">{{email}}</span> </span> </div>
                                     </p>
-                                    <form class="mx-1 mx-md-4" method="post" >
+                                    <form class="mx-1 mx-md-4" method="post">
                                         {% csrf_token %}
                                         <div class="d-flex flex-row align-items-center mb-4">
                                             <i class="fas fa-envelope fa-lg me-3 fa-fw"></i>
@@ -75,7 +79,16 @@
             </div>
         </div>
     </section>
+   
     <!-- MDB -->
+    <script>
+        $(document).ready(function () {
+            // Enable the signup button when the page is loaded
+            $("#signup-btn").prop("disabled", false);
+        });
+    </script>
+    
+
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.2/mdb.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
         integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
@@ -92,4 +105,3 @@
 
 
 </head>
-

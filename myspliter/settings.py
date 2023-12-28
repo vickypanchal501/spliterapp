@@ -25,7 +25,8 @@ SECRET_KEY = 'django-insecure-u8rtys^8q=axu4z!n+_t6#gdsb24at_508bxvdbli(rh+n7zt%
 DEBUG = True
 
 ALLOWED_HOSTS = ['*']
-
+# settings.py
+AUTHENTICATION_BACKENDS = ['account.backends.EmailBackend', 'django.contrib.auth.backends.ModelBackend']
 
 # Application definition
 
