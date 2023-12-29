@@ -8,9 +8,23 @@ from .forms import ExpenseForm
 from collections import defaultdict
 from decimal import Decimal
 from .transaction_tracker import TransactionTracker
-
+from django.db.models import Sum
+from decimal import Decimal
 from django.contrib import messages
 transaction_tracker = TransactionTracker()
+
+
+
+def calculate_user_balances(group):
+    user_balances = {}
+
+    for member in group.members.all():
+        aggregated_amount = member.expenses_involved.filter(group=group).aggregate(Sum('amount'))['amount__sum']
+        user_balances[member] = -aggregated_amount if aggregated_amount is not None else Decimal('0.0')
+
+    return user_balances
+
+
 
 def create_group(request):
     user = request.user
@@ -56,7 +70,9 @@ def group_detail(request, group_id):
         return redirect('Main')
     # user_balances = group.members.all()
     # user_balances = calculate_user_balances(group)
-    user_balances = {member: Decimal('0.0') for member in group.members.all()}
+    # user_balances = {member: Decimal('0.0') for member in group.members.all()}
+    user_balances = calculate_user_balances(group)
+
     for user in group_members:
         dict1 = {}
         # Query the database for repayment details
@@ -116,41 +132,55 @@ def add_expense(request, group_id):
             total_members = len(expense.split_with.all())
             amount_per_user = expense.amount / total_members
             split_type = request.POST.get('split_type')
-            print("Split Type in Django View:", split_type)
 
-           
-               
-                
             if split_type == 'percentage':
                 group_members = {user.username: float(request.POST.get(f"contributions[{user.username}]")) for user in group.members.all()}
                 total_percentage = sum(group_members.values())
-                print("sum(group_members.values())",sum(group_members.values()))
+                amount_percentage_total = 0
+                not_active_user_paid = 0
                 payer = expense.paid_by.username
                 for payee, percentage in group_members.items():
                     if payer != payee:
-                        print("payee:-",payee)
-                        print("payer:-",payer)
-                        split_amount = float(amount) * (percentage / float(total_percentage))
-                        transaction_tracker.record_transaction(group, payer, payee, split_amount)
-                        RepaymentDetail.record_repayment(payer, payee, group, split_amount)
-            # Handle percentage split logic
-                print("group-members:- ",group_members)
-                # transaction_tracker.split_and_record_transaction(group,expense.paid_by.username, group_members, amount)
-                # print(group_members)
-                print("Handling percentage split logic...")
+                        
+                        
+                        if payee == request.user.username:
+                            split_amount = float(expense.amount) * (percentage / float(total_percentage))
+                            transaction_tracker.record_transaction(group, payer, payee, split_amount)
+                            RepaymentDetail.record_repayment(payer, payee, group, split_amount)
+                            not_active_user_paid += split_amount
+                        else:
+                            split_amount = float(expense.amount) * (percentage / float(total_percentage))
+                            transaction_tracker.record_transaction(group, payer, payee, split_amount)
+                            RepaymentDetail.record_repayment(payer, payee, group, split_amount)
+                            amount_percentage_total += split_amount    
+
+                if request.user == expense.paid_by:
+                    expense.amount_paid_by_user = amount if is_member else 0
+                    expense.amount_lent_by_user = amount_percentage_total  if is_member else 0
+                else:
+                    expense.amount_paid_by_user = amount if is_member else 0
+                    expense.amount_lent_by_user = not_active_user_paid  if is_member else 0
+                    expense.save()
             else:
                 payer = expense.paid_by.username
                 for payee in expense.split_with.all():
                     if payer != payee.username: 
                         transaction_tracker.record_transaction(group,payer, payee.username, amount_per_user, )
                         RepaymentDetail.record_repayment(payer, payee.username, group, amount_per_user)
-                print("Handling equal split logic...")
-            # Handle equal split logic
+                                                # Update amount_paid_by_user and amount_lent_by_user
+                        expense.amount_paid_by_user = amount_per_user if is_member else 0
+                        expense.amount_lent_by_user = amount - expense.amount_paid_by_user if is_member else 0
 
-            amount_lent_by_user = amount_per_user * (total_members - 1)
-            expense.amount_lent_by_user = amount_per_user if is_member else 0  # Adjusted this line
-            expense.amount_paid_by_user = amount if is_member else 0
-            expense.save()
+
+                
+                print("Handling equal split logic...")
+            # # Handle equal split logic
+
+            # amount_lent_by_user = amount - (amount_per_user or 0) if is_member else 0
+
+            # expense.amount_lent_by_user = amount_lent_by_user if is_member else 0
+            # expense.amount_paid_by_user = amount if is_member else 0
+
 
             if expense.created_by == expense.paid_by:
                 expense.total_amount_paid_by_activeuser = amount
