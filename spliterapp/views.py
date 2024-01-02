@@ -190,6 +190,8 @@ def add_expense(request, group_id):
 
             return redirect('group_detail', group_id=group.id)
 
+
+"dkasd"
     else:
         form = ExpenseForm(group)
 
