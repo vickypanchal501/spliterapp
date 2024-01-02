@@ -15,14 +15,14 @@ transaction_tracker = TransactionTracker()
 
 
 
-def calculate_user_balances(group):
-    user_balances = {}
+# def calculate_user_balances(group):
+#     user_balances = {}
 
-    for member in group.members.all():
-        aggregated_amount = member.expenses_involved.filter(group=group).aggregate(Sum('amount'))['amount__sum']
-        user_balances[member] = -aggregated_amount if aggregated_amount is not None else Decimal('0.0')
+#     for member in group.members.all():
+#         aggregated_amount = member.expenses_involved.filter(group=group).aggregate(Sum('amount'))['amount__sum']
+#         user_balances[member] = -aggregated_amount if aggregated_amount is not None else Decimal('0.0')
 
-    return user_balances
+#     return user_balances
 
 
 
@@ -70,8 +70,8 @@ def group_detail(request, group_id):
         return redirect('Main')
     # user_balances = group.members.all()
     # user_balances = calculate_user_balances(group)
-    # user_balances = {member: Decimal('0.0') for member in group.members.all()}
-    user_balances = calculate_user_balances(group)
+    user_balances = {member: Decimal('0.0') for member in group.members.all()}
+    # user_balances = calculate_user_balances(group)
 
     for user in group_members:
         dict1 = {}
@@ -82,7 +82,9 @@ def group_detail(request, group_id):
             payer = repayment.payer
             payee = repayment.payee
             amount = repayment.amount
-
+            print("payer :- ", payer)
+            print("apyee :- ", payee)
+            print("amount :- ", amount)
             if payer == user:
                 if payee not in dict1:
                     dict1[payee] = amount
@@ -96,6 +98,7 @@ def group_detail(request, group_id):
         # print(dict1)
         for users, values in dict1.items():
             user_balances[users] += values
+
     context = {
         'group': group,
         'user_groups': user_groups,
@@ -190,8 +193,6 @@ def add_expense(request, group_id):
 
             return redirect('group_detail', group_id=group.id)
 
-
-"dkasd"
     else:
         form = ExpenseForm(group)
 
