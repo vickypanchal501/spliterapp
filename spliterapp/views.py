@@ -139,10 +139,15 @@ def add_expense(request, group_id):
                 amount_percentage_total = 0
                 not_active_user_paid = 0
                 payer = expense.paid_by.username
+
                 for payee, percentage in group_members.items():
+                    expense.percentages[payee] = float(float(expense.amount) * (percentage / float(total_percentage)))
+                    # print(percentage[payee]) 
+                  
+                    # print("payee", type(payee))
+                    # for key , value in expense.percentages.items():
+                    #     print("keys:- ", key , "value:- ", value)
                     if payer != payee:
-                        
-                        
                         if payee == request.user.username:
                             split_amount = float(expense.amount) * (percentage / float(total_percentage))
                             transaction_tracker.record_transaction(group, payer, payee, split_amount)
@@ -164,22 +169,16 @@ def add_expense(request, group_id):
             else:
                 payer = expense.paid_by.username
                 for payee in expense.split_with.all():
+                    expense.percentages[payee.username] = float(amount_per_user)
                     if payer != payee.username: 
                         transaction_tracker.record_transaction(group,payer, payee.username, amount_per_user, )
                         RepaymentDetail.record_repayment(payer, payee.username, group, amount_per_user)
-                                                # Update amount_paid_by_user and amount_lent_by_user
-                        expense.amount_paid_by_user = amount_per_user if is_member else 0
-                        expense.amount_lent_by_user = amount - expense.amount_paid_by_user if is_member else 0
-
-
-                
-                print("Handling equal split logic...")
-            # # Handle equal split logic
-
-            # amount_lent_by_user = amount - (amount_per_user or 0) if is_member else 0
-
-            # expense.amount_lent_by_user = amount_lent_by_user if is_member else 0
-            # expense.amount_paid_by_user = amount if is_member else 0
+                if request.user == expense.paid_by:                                # Update amount_paid_by_user and amount_lent_by_user
+                    expense.amount_paid_by_user = amount if is_member else 0
+                    expense.amount_lent_by_user = amount - amount_per_user if is_member else 0
+                else:
+                    expense.amount_paid_by_user = amount if is_member else 0
+                    expense.amount_lent_by_user =  amount_per_user if is_member else 0
 
 
             if expense.created_by == expense.paid_by:

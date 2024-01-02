@@ -308,8 +308,8 @@
                                         <h2>{{ expense.paid_by.username }} paid  ₹{{expense.amount_paid_by_user|stringformat:"0.2f" }}</h2>
                                         <ul>
                                             <li>{{ expense.paid_by.username }} paid ₹{{expense.amount_paid_by_user|stringformat:"0.2f" }} and owes  ₹{{expense.amount_lent_by_user|stringformat:"0.2f" }}</li>
-                                            {% for member, amount in expense.owes.items %}
-                                            <li>{{ member.username }} owes  ₹{{ amount|stringformat:"0.2f" }}</li>
+                                            {% for member, amount in expense.percentages.items %}
+                                            <li>{{ member }} Expense  ₹{{ amount|stringformat:"0.2f" }}</li>
                                             {% endfor %}
                                         </ul>
                                     </div>
