@@ -11,20 +11,30 @@ from django.template import Context
 from .forms import SignUpForm, OTPVerificationForm
 from .models import CustomUser
 from spliterapp.models import Group
+<<<<<<< HEAD
 
 
+=======
+from django.contrib.auth.decorators import login_required
+
+>>>>>>> vicky
 from django.contrib.auth.hashers import make_password
 
 def index(request):
     return render(request, "index.html")
 
+<<<<<<< HEAD
 
+=======
+@login_required
+>>>>>>> vicky
 def Main(
     request,
 ):
     # group = Group.objects.get(id=group_id)
     user = request.user  # Get the current user
     user_groups = Group.objects.filter(members=user)
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -38,6 +48,11 @@ def Main(
     return render(request, "group/base.html",{'user_groups': user_groups})
 >>>>>>> vikcy
 ################ login forms################################################### 
+=======
+
+    return render(request, "group/base.html", {"user_groups": user_groups})
+
+>>>>>>> vicky
 =======
 
     return render(request, "group/base.html", {"user_groups": user_groups})
@@ -114,7 +129,10 @@ def Signup(request):
 
 
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> vicky
 def VerifyOTP(request):
     username = request.session.get("signup_username")
     email = request.session.get("signup_email")

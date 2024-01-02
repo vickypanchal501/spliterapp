@@ -42,6 +42,8 @@ INSTALLED_APPS = [
     'spliterapp',
     'crispy_forms',
     'django_otp',
+    'django_filters'
+  
     
     
 ]
@@ -56,6 +58,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'account.middleware.mymiddleware.RequireLoginMiddleware'
+  
     
 ]
 
@@ -152,3 +156,4 @@ EMAIL_USE_TLS = True
 
 EMAIL_HOST_USER  = "panchalvikas472@gmail.com"
 EMAIL_HOST_PASSWORD = "ldckbarhoeszvhpr"
+EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"

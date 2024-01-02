@@ -1,6 +1,10 @@
 
 from django.contrib import admin
+<<<<<<< HEAD
 from .models import Group, Expense 
+=======
+from .models import Group, Expense ,RepaymentDetail
+>>>>>>> vicky
 
 class GroupMember(admin.ModelAdmin):
     list_display = ["id","name","creator", ]
@@ -14,6 +18,7 @@ admin.site.register(Group,GroupMember)
 =======
 >>>>>>> vikcy
 class ExpenseAdmin(admin.ModelAdmin):
+<<<<<<< HEAD
     list_display = ('description', 'group', 'split_amount', 'created_by','paid_by_name','amount_paid_by_user', 'amount_lent_by_user','total_amount_paid_by_activeuser','owes',)
     search_fields = ['description']
 
@@ -36,4 +41,18 @@ admin.site.register(Expense, ExpenseAdmin)
 >>>>>>> vikcy
 =======
 admin.site.register(Expense, ExpenseAdmin)
+>>>>>>> vicky
+=======
+    list_display = ('description', 'group', 'split_amount', 'created_by','paid_by','percentages',"owes")
+    search_fields = ['description']
+
+
+admin.site.register(Expense, ExpenseAdmin)
+class RepaymentDetailAdmin(admin.ModelAdmin):
+    list_display = ["id","payer","payee","group","amount" ]
+admin.site.register(RepaymentDetail,RepaymentDetailAdmin)
+
+# class RepaymentMember(admin.ModelAdmin):
+#     list_display = ["from_user","to_user","amount" ]
+# admin.site.register(Repayment,RepaymentMember)
 >>>>>>> vicky

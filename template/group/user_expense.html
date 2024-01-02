@@ -203,6 +203,7 @@
 
 <body>
 <<<<<<< HEAD
+<<<<<<< HEAD
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css"
         integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
 <<<<<<< HEAD
@@ -431,6 +432,69 @@
                                             data-toggle="tooltip" title data-original-title="Sarah Smith"></li>
                                     <li class="avatar avatar-sm"><span class="badge badge-primary">+4</span>
                                     </li>
+=======
+
+    <div class="card ">
+        <div class="card-header mr-auto justify-content-between navbar-light bg-light"
+            style="width: 97%;margin: 10px 10px 5px 10px;">
+            <a class="navbar-brand">{{group}}</a>
+            <ul class="nav nav-pills card-header-pills ">
+                <li class="nav-item px-1">
+                    {% if group.id %}
+                    <a class="nav-link active" style="background-color: #f8b739"
+                        href="{% url 'add_expense' group_id=group.id %}" data-toggle="modal"
+                        data-target="#exampleModalCenter">Add an Expense</a>
+                    {% endif %}
+                </li>
+                <li class="nav-item px-1 ">
+                    <a class="nav-link active " style="background-color: #f8b739;" href="#">Settle Up</a>
+                </li>
+            </ul>
+        </div>
+
+        <div class="card-body">
+            <div class="table-responsive" id="proTeamScroll" tabindex="2" style=" overflow: hidden; outline: none;">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Cust.</th>
+                            <th>Expense</th>
+                            <th>Assign Date</th>
+                            <th>Team</th>
+                            <th>Paid Amount</th>
+                            <th>lent Amount</th>
+                            <!-- <th>Edit</th> -->
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for expense in group_expenses %}
+
+                        <tr>
+                            <td class="table-img"><img src="https://bootdey.com/img/Content/avatar/avatar8.png" alt>
+                            </td>
+                            <td>
+                                <p class="m-0 font-12">
+                                    <a data-bs-toggle="collapse" href="#collapseExample{{ expense.id }}" role="button"
+                                        aria-expanded="false">
+                                        <span class="col-green font-weight-bold">{{ expense.description }} </span>
+                                    </a>
+                                </p>
+
+
+                            </td>
+                            <td>{{expense.date}}</td>
+                            <td class="text-truncate">
+                                <ul class="list-unstyled order-list m-b-0">
+                                    {% for expense_id in expense.split_with.all %}
+                                   
+                                        <li class="team-member team-member-sm"><img class="rounded-circle"
+                                            src="https://api.multiavatar.com/{{expense_id.username}}.svg" alt="user"
+                                            data-toggle="tooltip" title data-original-title="Wildan Ahdian"></li>
+                                      
+                                    {% endfor %}        
+                                    <!-- <li class="avatar avatar-sm"><span class="badge badge-primary">+4</span>
+                                    </li> -->
+>>>>>>> vicky
                                 </ul>
                             </td>
                             <td>
@@ -452,7 +516,11 @@
                                 <div class="badge-outline col-red" style="color: #ff652f;">Not Involved</div>
                                 {% else %}
                                 <div class="badge-outline col-red">{{ expense.paid_by.username }} lent You</div>
+<<<<<<< HEAD
                                 <div class="badge-outline col-red" style="color: #ff652f;">{{ expense.split_amount}}</div>
+=======
+                                <div class="badge-outline col-red" style="color: #ff652f;">{{ expense.amount_lent_by_user}}</div>
+>>>>>>> vicky
                                 {% endif %}
 
                             </td>
@@ -476,8 +544,13 @@
                                         <h2>{{ expense.paid_by.username }} paid  ₹{{expense.amount_paid_by_user|stringformat:"0.2f" }}</h2>
                                         <ul>
                                             <li>{{ expense.paid_by.username }} paid ₹{{expense.amount_paid_by_user|stringformat:"0.2f" }} and owes  ₹{{expense.amount_lent_by_user|stringformat:"0.2f" }}</li>
+<<<<<<< HEAD
                                             {% for member, amount in expense.owes.items %}
                                             <li>{{ member.username }} owes  ₹{{ amount|stringformat:"0.2f" }}</li>
+=======
+                                            {% for member, amount in expense.percentages.items %}
+                                            <li>{{ member }} Expense  ₹{{ amount|stringformat:"0.2f" }}</li>
+>>>>>>> vicky
                                             {% endfor %}
                                         </ul>
                                     </div>
@@ -496,6 +569,9 @@
             </div>
         </div>
         <!-- </div>
+<<<<<<< HEAD
+>>>>>>> vicky
+=======
 >>>>>>> vicky
             </div>
         </div> -->

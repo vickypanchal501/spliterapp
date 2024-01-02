@@ -195,6 +195,7 @@
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 <!-- Template created and distributed by Colorlib -->
 =======
 <!-- Template created and distributed by Colorlib -->
@@ -218,3 +219,67 @@
 =======
 <!-- Template created and distributed by Colorlib -->
 >>>>>>> vikcy
+=======
+<!-- Template created and distributed by Colorlib -->
+
+
+
+# def calculate_user_balances(group):
+#     user_balances = {user: Decimal(0) for user in group.members.all()}
+#     # import pdb;pdb.set_trace()
+
+#     for expense in Expense.objects.filter(group=group):
+#         if expense.paid_by == expense.created_by:
+#             user_balances[expense.paid_by] += expense.amount_paid_by_user
+#         else:
+#             user_balances[expense.paid_by] += expense.split_amount
+
+#     for user, amount in expense.owes.items():
+#         user_balances[user] -= amount
+#              # Adjusted subtraction here
+#     for user, balance in user_balances.items():
+#         print(f"{user.username}: {balance}")
+#     return user_balances
+
+
+# def calculate_settle_up_details(user_balances):
+#     return {
+#         'owes': {member: abs(amount) for member, amount in user_balances.items() if amount > 0},
+#         'gets_back': {member: amount for member, amount in user_balances.items() if amount < 0},
+#     }
+
+
+
+
+# def detailed_repayments(request, group_id, user_id):
+#     group = get_object_or_404(Group, id=group_id)
+#     user = get_object_or_404(CustomUser, id=user_id)
+#     user_balances = calculate_user_balances(group)
+#     settle_up_details = calculate_settle_up_details(user_balances)
+#     detailed_repayments = []
+
+#     for other_user, amount in settle_up_details['owes'].items():
+#         if user == other_user:
+#             continue  # Skip entries where the user owes money to themselves
+#         detailed_repayment = Repayment(from_user=other_user, to_user=user, amount=amount)
+#         detailed_repayment.save()
+#         detailed_repayments.append(detailed_repayment)
+
+#     for other_user, amount in settle_up_details['gets_back'].items():
+#         if user == other_user:
+#             continue  # Skip entries where the user receives money from themselves
+#         detailed_repayment = Repayment(from_user=user, to_user=other_user, amount=amount)
+#         detailed_repayment.save()
+#         detailed_repayments.append(detailed_repayment)
+
+#     context = {
+#         'group': group,
+#         'user': user,
+#         'detailed_repayments': detailed_repayments,
+#     }
+#     # for repayment in detailed_repayments:
+#     #     print(f"{repayment['from_user'].username} owes {repayment['amount']:.2f} to {repayment['to_user'].username}")
+
+#     return render(request, 'group/detailed_repayments.html', context)
+
+>>>>>>> vicky

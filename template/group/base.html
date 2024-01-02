@@ -1,6 +1,18 @@
+{% load crispy_forms_tags %}
 {% include 'group/main_header.html' %}
 {% include 'group/main_navbar.html' %}
+{% if messages %}
+    
+{% for message in messages %}
+<script>
+    alert('{{ message }}')
+</script>
+{% endfor %}
+{% endif %}
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> vicky
 {% include 'expense/expense.html' %}
 {% include 'group/main_footer.html' %}

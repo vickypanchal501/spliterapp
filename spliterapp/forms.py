@@ -3,6 +3,7 @@ from .models import Expense
 
 class ExpenseForm(forms.ModelForm):
     split_amount_per_user = forms.DecimalField(widget=forms.HiddenInput(), required=False)
+    percentages = forms.JSONField(required=False)
     def __init__(self, group, *args, **kwargs):
         super(ExpenseForm, self).__init__(*args, **kwargs)
         self.fields['split_with'] = forms.ModelMultipleChoiceField(
