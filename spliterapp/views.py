@@ -155,7 +155,7 @@ def group_detail(request, group_id):
     group_expenses = Expense.objects.filter(group=group)
 >>>>>>> vicky
 
-
+# this is group members
     group_members = group.members.all()
     user = request.user
     if user not in group_members:
